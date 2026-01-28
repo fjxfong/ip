@@ -1,8 +1,10 @@
 import java.util.*;
+import Tasklist.*;
 
 public class Psyduck {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Tasklist tasklist = new Tasklist();
         String greeting = """
                 ____________________________________________________________\s
                 Hello! I'm Psyduck\s
@@ -19,15 +21,22 @@ public class Psyduck {
            if (input.equals("bye")) {
                break;
            }
-
-           System.out.println("____________________________________________________________");
-           System.out.println(" " + input);
-           System.out.println("____________________________________________________________");
+           if (input.equals("list")) {
+               System.out.println("____________________________________________________________");
+               System.out.println(tasklist.list());
+               System.out.println("____________________________________________________________");
+           } else {
+               tasklist.add(input);
+               System.out.println("____________________________________________________________");
+               System.out.println("added: " + input);
+               System.out.println("____________________________________________________________");
+           }
         }
 
         String goodbye = "Bye. Hope to see you again soon! \n" +
                 "____________________________________________________________";
 
+        System.out.println("____________________________________________________________");
         System.out.println(goodbye);
     }
 }
