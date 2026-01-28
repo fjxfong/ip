@@ -1,10 +1,11 @@
 
 public class Psyduck {
     public static void main(String[] args) {
-        String greeting = "____________________________________________________________ \n" +
-                "Hello! I'm Psyduck \n" +
-                "What can I do for you? \n" +
-                "____________________________________________________________";
+        String greeting = """
+                ____________________________________________________________\s
+                Hello! I'm Psyduck\s
+                What can I do for you?\s
+                ____________________________________________________________""";
         String goodbye = "Bye. Hope to see you again soon! \n" +
                 "____________________________________________________________";
 
