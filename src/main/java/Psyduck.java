@@ -26,30 +26,42 @@ public class Psyduck {
             try {
                 String input = scanner.nextLine().trim();
 
-                if (input.equals("bye")) {
-                    break;
-                }
-
                 if (input.isEmpty()) {
                     throw new PsyduckException("Please enter a command!");
                 }
 
-                if (input.equals("list")) {
-                    handleList(taskList);
-                } else if (input.startsWith("mark ")) {
-                    handleMark(input, taskList);
-                } else if (input.startsWith("unmark ")) {
-                    handleUnmark(input, taskList);
-                } else if (input.startsWith("delete ")){
-                    handleDelete(input, taskList);
-                }else if (input.startsWith("todo")) {
-                    handleToDo(input, taskList);
-                } else if (input.startsWith("deadline")) {
-                    handleDeadline(input, taskList);
-                } else if (input.startsWith("event")) {
-                    handleEvent(input, taskList);
-                } else {
-                    throw new PsyduckException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+                CommandType command = Parser.parseCommand(input);
+
+                switch (command) {
+                    case BYE:
+                        printDivider();
+                        System.out.println("Bye. Hope to see you again soon!");
+                        printDivider();
+                        scanner.close();
+                        return;
+                    case LIST:
+                        handleList(taskList);
+                        break;
+                    case MARK:
+                        handleMark(input, taskList);
+                        break;
+                    case UNMARK:
+                        handleUnmark(input, taskList);
+                        break;
+                    case DELETE:
+                        handleDelete(input, taskList);
+                        break;
+                    case TODO:
+                        handleToDo(input, taskList);
+                        break;
+                    case DEADLINE:
+                        handleDeadline(input, taskList);
+                        break;
+                    case EVENT:
+                        handleEvent(input, taskList);
+                        break;
+                    case UNKNOWN:
+                        throw new PsyduckException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
             } catch (PsyduckException e) {
                 printDivider();
@@ -69,11 +81,6 @@ public class Psyduck {
                 printDivider();
             }
         }
-
-        printDivider();
-        System.out.println("Bye. Hope to see you again soon!");
-        printDivider();
-        scanner.close();
     }
 
     /**
