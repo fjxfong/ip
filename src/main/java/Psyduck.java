@@ -1,7 +1,16 @@
-import java.util.*;
-import Tasklist.*;
+import java.util.Scanner;
+import tasklist.Tasklist;
 
+/**
+ * Runs the Psyduck task management chatbot application.
+ * Handles user input and delegates task operation to the Tasklist.
+ */
 public class Psyduck {
+    /**
+     * Starts the application and processes user commands until exit.
+     *
+     * @param args Command-line arguments (not used)
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Tasklist tasklist = new Tasklist();
@@ -12,9 +21,7 @@ public class Psyduck {
                 ____________________________________________________________""";
         System.out.println(greeting);
 
-        //waits for input from user
-        //will echo user input to output
-        //will break if user input "bye"
+        // Continuously read and processes user input until "bye" is entered
         while (true) {
            String input = scanner.nextLine();
 
@@ -23,42 +30,47 @@ public class Psyduck {
            }
 
            if (input.equals("list")) {
-               System.out.println("____________________________________________________________");
+               printDivider();
                System.out.println("Here are the tasks in your list: ");
                System.out.println(tasklist.list());
-               System.out.println("____________________________________________________________");
+               printDivider();
            }
 
            else if (input.startsWith("mark ")) {
                int taskNum = Integer.parseInt(input.substring(5)) - 1; //zero-based indexing
                tasklist.markTask(taskNum);
-               System.out.println("____________________________________________________________");
+               printDivider();
                System.out.println("Nice! I've marked this task as done: ");
                System.out.println(" " + tasklist.get(taskNum));
-               System.out.println("____________________________________________________________");
+               printDivider();
            }
 
            else if (input.startsWith("unmark ")) {
                int taskNum = Integer.parseInt(input.substring(7)) - 1; //zero-based indexing
                tasklist.unmarkTask(taskNum);
-               System.out.println("____________________________________________________________");
+               printDivider();
                System.out.println("OK! I've marked this task as not done yet: ");
                System.out.println(" " + tasklist.get(taskNum));
-               System.out.println("____________________________________________________________");
+               printDivider();
            }
 
            else {
                tasklist.add(input);
-               System.out.println("____________________________________________________________");
+               printDivider();
                System.out.println("added: " + input);
-               System.out.println("____________________________________________________________");
+               printDivider();
            }
         }
 
-        String goodbye = "Bye. Hope to see you again soon! \n" +
-                "____________________________________________________________";
+        printDivider();
+        System.out.println("Bye. Hope to see you again soon! ");
+        printDivider();
+    }
 
+    /**
+     * Prints a divider line to the console
+     */
+    public static void printDivider() {
         System.out.println("____________________________________________________________");
-        System.out.println(goodbye);
     }
 }
