@@ -40,7 +40,9 @@ public class Psyduck {
                     handleMark(input, taskList);
                 } else if (input.startsWith("unmark ")) {
                     handleUnmark(input, taskList);
-                } else if (input.startsWith("todo")) {
+                } else if (input.startsWith("delete ")){
+                    handleDelete(input, taskList);
+                }else if (input.startsWith("todo")) {
                     handleToDo(input, taskList);
                 } else if (input.startsWith("deadline")) {
                     handleDeadline(input, taskList);
@@ -141,6 +143,34 @@ public class Psyduck {
         printDivider();
         System.out.println("OK! I've marked this task as not done yet:");
         System.out.println("  " + taskList.get(taskIndex));
+        printDivider();
+    }
+
+    /**
+     * Handles deleting a task from the list.
+     *
+     * @param input User input string.
+     * @param taskList The task list to modify.
+     * @throws PsyduckException If the input is invalid.
+     */
+    private static void handleDelete(String input, TaskList taskList) throws PsyduckException {
+        if (input.length() <= 7 || input.substring(7).trim().isEmpty()) {
+            throw new PsyduckException("OOPS!!! Please specify which task to delete!\n" +
+                    "Usage: delete <task number>");
+        }
+
+        int taskIndex = Integer.parseInt(input.substring(7).trim()) - 1;
+
+        if (taskIndex < 0 || taskIndex >= taskList.size()) {
+            throw new PsyduckException("OOPS!!! Task number " + (taskIndex + 1) +
+                    " doesn't exist! You have " + taskList.size() + " task(s).");
+        }
+
+        task.Task deletedTask = taskList.delete(taskIndex);
+        printDivider();
+        System.out.println("Noted. I've removed this task:");
+        System.out.println("  " + deletedTask);
+        System.out.println("Now you have " + taskList.size() + " task(s) in the list.");
         printDivider();
     }
 

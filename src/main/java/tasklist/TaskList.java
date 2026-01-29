@@ -67,6 +67,16 @@ public class TaskList {
     }
 
     /**
+     * Deletes the task at the specified index.
+     *
+     * @param index Zero-based index of the task to delete.
+     * @return The deleted task.
+     */
+    public Task delete(int index) {
+        return tasks.remove(index);
+    }
+
+    /**
      * Returns a formatted list of all task.
      *
      * @return Tasks formatted as a numbered list.
@@ -74,7 +84,9 @@ public class TaskList {
     public String list() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i< tasks.size(); i++) {
-            sb.append(i + 1).append(". ").append(tasks.get(i)).append("\n");
+            sb.append(i + 1).append(". ")
+                    .append(tasks.get(i))
+                    .append("\n");
         }
         return sb.toString();
     }
