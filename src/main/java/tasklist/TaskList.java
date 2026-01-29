@@ -6,7 +6,7 @@ import task.*;
 /**
  * Manages a collection of tasks and provides operations to modify them
  */
-public class Tasklist {
+public class TaskList {
     private final ArrayList<Task> tasks = new ArrayList<>();
 
     /**
