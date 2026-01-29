@@ -1,7 +1,7 @@
 package tasklist;
 
 import java.util.ArrayList;
-import task.Task;
+import task.*;
 
 /**
  * Manages a collection of tasks and provides operations to modify them
@@ -16,6 +16,36 @@ public class Tasklist {
      */
     public void add(String description) {
         tasks.add(new Task(description));
+    }
+
+    /**
+     * Adds a new to-do task to the list.
+     *
+     * @param description Description of the task.
+     */
+    public void addToDo(String description) {
+        tasks.add(new ToDo(description));
+    }
+
+    /**
+     * Adds a new deadline task to the list.
+     *
+     * @param description Description of the task.
+     * @param by Deadline of the task.
+     */
+    public void addDeadline(String description, String by) {
+        tasks.add(new Deadline(description, by));
+    }
+
+    /**
+     * Adds a new event task to the list.
+     *
+     * @param description Description of the task.
+     * @param from Start time of the event.
+     * @param to End time of the event.
+     */
+    public void addEvent(String description, String from, String to) {
+        tasks.add(new Event(description, from, to));
     }
 
     /**
