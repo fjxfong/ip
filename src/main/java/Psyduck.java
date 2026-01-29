@@ -21,11 +21,33 @@ public class Psyduck {
            if (input.equals("bye")) {
                break;
            }
+
            if (input.equals("list")) {
                System.out.println("____________________________________________________________");
+               System.out.println("Here are the tasks in your list: ");
                System.out.println(tasklist.list());
                System.out.println("____________________________________________________________");
-           } else {
+           }
+
+           else if (input.startsWith("mark ")) {
+               int taskNum = Integer.parseInt(input.substring(5)) - 1; //zero-based indexing
+               tasklist.markTask(taskNum);
+               System.out.println("____________________________________________________________");
+               System.out.println("Nice! I've marked this task as done: ");
+               System.out.println(" " + tasklist.get(taskNum));
+               System.out.println("____________________________________________________________");
+           }
+
+           else if (input.startsWith("unmark ")) {
+               int taskNum = Integer.parseInt(input.substring(7)) - 1; //zero-based indexing
+               tasklist.unmarkTask(taskNum);
+               System.out.println("____________________________________________________________");
+               System.out.println("OK! I've marked this task as not done yet: ");
+               System.out.println(" " + tasklist.get(taskNum));
+               System.out.println("____________________________________________________________");
+           }
+
+           else {
                tasklist.add(input);
                System.out.println("____________________________________________________________");
                System.out.println("added: " + input);

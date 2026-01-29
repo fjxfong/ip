@@ -1,12 +1,22 @@
 package Tasklist;
 
+import Task.Task;
+
 import java.util.*;
 
 public class Tasklist {
-    private final ArrayList<String> tasks = new ArrayList<>();
+    private final ArrayList<Task> tasks = new ArrayList<>();
 
     public void add(String task) {
-        tasks.add(task);
+        tasks.add(new Task(task));
+    }
+
+    public void markTask(int index) {
+        tasks.get(index).mark();
+    }
+
+    public void unmarkTask(int index) {
+        tasks.get(index).unmark();
     }
 
     public String list() {
@@ -19,5 +29,9 @@ public class Tasklist {
 
     public int size() {
         return tasks.size();
+    }
+
+    public Task get(int index) { // this is zero-based internally
+        return tasks.get(index);
     }
 }
