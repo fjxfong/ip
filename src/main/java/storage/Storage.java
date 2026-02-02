@@ -22,7 +22,7 @@ public class Storage {
     /**
      * Creates a Storage object with the specified file path.
      *
-     * @param filePath
+     * @param filePath Path to the data file.
      */
     public Storage(String filePath) {
         this.filePath = filePath;
@@ -149,11 +149,11 @@ public class Storage {
         } else if (task instanceof Deadline) {
             type = "D";
             Deadline deadline = (Deadline) task;
-            additionalInfo = " | " + deadline.getBy();
+            additionalInfo = " | " + deadline.getByForStorage();
         } else if (task instanceof Event) {
             type = "E";
             Event event = (Event) task;
-            additionalInfo = " | " + event.getFrom() + " | " + event.getTo();
+            additionalInfo = " | " + event.getFromForStorage() + " | " + event.getToForStorage();
         } else {
             type = "T"; // Default to ToDo
         }
@@ -161,5 +161,4 @@ public class Storage {
         int isDone = task.isDone() ? 1 : 0;
         return type + " | " + isDone + " | " + task.getDescription() + additionalInfo;
     }
-
 }
