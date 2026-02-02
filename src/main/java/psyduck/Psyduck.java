@@ -235,7 +235,7 @@ public class Psyduck {
     private void handleDeadline(String input) throws PsyduckException {
         if (input.length() <= 8 || input.substring(8).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <deadline>");
+                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         String details = input.substring(9).trim();
@@ -243,24 +243,24 @@ public class Psyduck {
 
         if (byIndex == -1) {
             throw new PsyduckException("OOPS!!! Please specify the deadline with /by.\n" +
-                    "Usage: deadline <description> /by <deadline>");
+                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         String description = details.substring(0, byIndex).trim();
         if (description.isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <deadline>");
+                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         if (byIndex + 3 >= details.length()) {
             throw new PsyduckException("OOPS!!! The deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <deadline>");
+                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         String by = details.substring(byIndex + 3).trim();
         if (by.isEmpty()) {
             throw new PsyduckException("OOPS!!! The deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <deadline>");
+                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         taskList.addDeadline(description, by);
@@ -274,10 +274,16 @@ public class Psyduck {
      * @param input User input string.
      * @throws PsyduckException If the input is invalid.
      */
+    /**
+     * Handles adding an Event task.
+     *
+     * @param input User input string.
+     * @throws PsyduckException If the input is invalid.
+     */
     private void handleEvent(String input) throws PsyduckException {
         if (input.length() <= 5 || input.substring(5).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of an event cannot be empty.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         String details = input.substring(6).trim();
@@ -286,30 +292,30 @@ public class Psyduck {
 
         if (fromIndex == -1 || toIndex == -1) {
             throw new PsyduckException("OOPS!!! Please specify the event time with /from and /to.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         if (fromIndex >= toIndex) {
             throw new PsyduckException("OOPS!!! /from must come before /to.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         String description = details.substring(0, fromIndex).trim();
         if (description.isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of an event cannot be empty.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         String from = details.substring(fromIndex + 5, toIndex).trim();
         if (from.isEmpty()) {
             throw new PsyduckException("OOPS!!! The start time cannot be empty.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         String to = details.substring(toIndex + 3).trim();
         if (to.isEmpty()) {
             throw new PsyduckException("OOPS!!! The end time cannot be empty.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         taskList.addEvent(description, from, to);
