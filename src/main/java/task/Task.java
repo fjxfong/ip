@@ -32,12 +32,30 @@ public class Task {
     }
 
     /**
+     * Returns whether the task is done.
+     *
+     * @return True if task is done, false otherwise.
+     */
+    public boolean isDone() {
+        return isDone;
+    }
+
+    /**
+     * returns the description of the task.
+     *
+     * @return Task description.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
      * Returns the status icon representing the completion state.
      * "X" indicates completed, blank indicates not completed.
      *
-     * @return Status icon of string
+     * @return Status icon of string.
      */
-    public String statusIcon() {
+    public String getStatusIcon() {
         return (isDone ? "X" : " ");
     }
 
@@ -48,6 +66,6 @@ public class Task {
      */
     @Override
     public String toString() {
-        return "[" + statusIcon() + "] " + description;
+        return "[" + getStatusIcon() + "] " + description;
     }
 }
