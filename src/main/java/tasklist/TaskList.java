@@ -10,7 +10,32 @@ import task.Deadline;
  * Manages a collection of tasks and provides operations to modify them
  */
 public class TaskList {
-    private final ArrayList<Task> tasks = new ArrayList<>();
+    private final ArrayList<Task> tasks;
+
+    /**
+     * Creates a new empty Tasklist
+     */
+    public TaskList() {
+        this.tasks = new ArrayList<>();
+    }
+
+    /**
+     * Creates a Tasklist with existing tasks.
+     *
+     * @param tasks ArrayList of task to initialize with.
+     */
+    public TaskList(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    /**
+     * Returns the internal Arraylist of tasks.
+     *
+     * @return ArrayList of tasks.
+     */
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
 
     /**
      * Adds a new task to the list.
