@@ -1,22 +1,37 @@
 package psyduck;
 
 import java.util.Scanner;
-
 import tasklist.TaskList;
+import storage.Storage;
 
 /**
- * Runs the psyduck.Psyduck task management chatbot application.
+ * Runs the Psyduck task management chatbot application.
  * Handles user input and delegates task operation to the Tasklist.
  */
 public class Psyduck {
+    private static final String FILE_PATH = "./data/psyduck.txt";
+    private final Storage storage;
+    private TaskList taskList;
+
     /**
-     * Starts the application and processes user commands until exit.
-     *
-     * @param args Command-line arguments (not used)
+     * Creates a new Psyduck instance.
      */
-    public static void main(String[] args) {
+    public Psyduck() {
+        storage = new Storage(FILE_PATH);
+        try {
+            taskList = new TaskList(storage.load());
+        } catch (PsyduckException e) {
+            System.out.println("Error loading tasks: " + e.getMessage());
+            System.out.println("Starting with an empty task list.");
+            taskList = new TaskList();
+        }
+    }
+
+    /**
+     * Runs the main application loop.
+     */
+    public void run() {
         Scanner scanner = new Scanner(System.in);
-        TaskList taskList = new TaskList();
         String greeting = """
                 ____________________________________________________________\s
                 Hello! I'm Psyduck\s
@@ -43,25 +58,25 @@ public class Psyduck {
                         scanner.close();
                         return;
                     case LIST:
-                        handleList(taskList);
+                        handleList();
                         break;
                     case MARK:
-                        handleMark(input, taskList);
+                        handleMark(input);
                         break;
                     case UNMARK:
-                        handleUnmark(input, taskList);
+                        handleUnmark(input);
                         break;
                     case DELETE:
-                        handleDelete(input, taskList);
+                        handleDelete(input);
                         break;
                     case TODO:
-                        handleToDo(input, taskList);
+                        handleToDo(input);
                         break;
                     case DEADLINE:
-                        handleDeadline(input, taskList);
+                        handleDeadline(input);
                         break;
                     case EVENT:
-                        handleEvent(input, taskList);
+                        handleEvent(input);
                         break;
                     case UNKNOWN:
                         throw new PsyduckException("OOPS!!! I'm sorry, but I don't know what that means :-(");
@@ -87,11 +102,20 @@ public class Psyduck {
     }
 
     /**
-     * Handles the list command to display all tasks.
-     *
-     * @param taskList The task list to display.
+     * Saves tasks to storage.
      */
-    private static void handleList(TaskList taskList) {
+    private void saveToStorage() {
+        try {
+            storage.save(taskList.getTasks());
+        } catch (PsyduckException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Handles the list command to display all tasks.
+     */
+    private void handleList() {
         printDivider();
         if (taskList.size() == 0) {
             System.out.println("Your task list is empty! Add some tasks to get started.");
@@ -106,10 +130,9 @@ public class Psyduck {
      * Handles marking a task as done.
      *
      * @param input User input string.
-     * @param taskList The task list to modify.
      * @throws PsyduckException If the input is invalid.
      */
-    private static void handleMark(String input, TaskList taskList) throws PsyduckException {
+    private void handleMark(String input) throws PsyduckException {
         if (input.length() <= 5 || input.substring(5).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! Please specify which task to mark!\n" +
                     "Usage: mark <task number>");
@@ -123,6 +146,7 @@ public class Psyduck {
         }
 
         taskList.markTask(taskIndex);
+        saveToStorage();
         printDivider();
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("  " + taskList.get(taskIndex));
@@ -133,10 +157,9 @@ public class Psyduck {
      * Handles unmarking a task as not done.
      *
      * @param input User input string.
-     * @param taskList The task list to modify.
      * @throws PsyduckException If the input is invalid.
      */
-    private static void handleUnmark(String input, TaskList taskList) throws PsyduckException {
+    private void handleUnmark(String input) throws PsyduckException {
         if (input.length() <= 7 || input.substring(7).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! Please specify which task to unmark!\n" +
                     "Usage: unmark <task number>");
@@ -150,6 +173,7 @@ public class Psyduck {
         }
 
         taskList.unmarkTask(taskIndex);
+        saveToStorage();
         printDivider();
         System.out.println("OK! I've marked this task as not done yet:");
         System.out.println("  " + taskList.get(taskIndex));
@@ -160,10 +184,9 @@ public class Psyduck {
      * Handles deleting a task from the list.
      *
      * @param input User input string.
-     * @param taskList The task list to modify.
      * @throws PsyduckException If the input is invalid.
      */
-    private static void handleDelete(String input, TaskList taskList) throws PsyduckException {
+    private void handleDelete(String input) throws PsyduckException {
         if (input.length() <= 7 || input.substring(7).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! Please specify which task to delete!\n" +
                     "Usage: delete <task number>");
@@ -177,6 +200,7 @@ public class Psyduck {
         }
 
         task.Task deletedTask = taskList.delete(taskIndex);
+        saveToStorage();
         printDivider();
         System.out.println("Noted. I've removed this task:");
         System.out.println("  " + deletedTask);
@@ -188,10 +212,9 @@ public class Psyduck {
      * Handles adding a ToDo task.
      *
      * @param input User input string.
-     * @param taskList The task list to modify.
      * @throws PsyduckException If the input is invalid.
      */
-    private static void handleToDo(String input, TaskList taskList) throws PsyduckException {
+    private void handleToDo(String input) throws PsyduckException {
         if (input.length() <= 4 || input.substring(4).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of a todo cannot be empty.\n" +
                     "Usage: todo <description>");
@@ -199,17 +222,17 @@ public class Psyduck {
 
         String description = input.substring(5).trim();
         taskList.addToDo(description);
-        printSuccessMessage(taskList);
+        saveToStorage();
+        printSuccessMessage();
     }
 
     /**
      * Handles adding a Deadline task.
      *
      * @param input User input string.
-     * @param taskList The task list to modify.
      * @throws PsyduckException If the input is invalid.
      */
-    private static void handleDeadline(String input, TaskList taskList) throws PsyduckException {
+    private void handleDeadline(String input) throws PsyduckException {
         if (input.length() <= 8 || input.substring(8).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n" +
                     "Usage: deadline <description> /by <deadline>");
@@ -241,17 +264,17 @@ public class Psyduck {
         }
 
         taskList.addDeadline(description, by);
-        printSuccessMessage(taskList);
+        saveToStorage();
+        printSuccessMessage();
     }
 
     /**
      * Handles adding an Event task.
      *
      * @param input User input string.
-     * @param taskList The task list to modify.
      * @throws PsyduckException If the input is invalid.
      */
-    private static void handleEvent(String input, TaskList taskList) throws PsyduckException {
+    private void handleEvent(String input) throws PsyduckException {
         if (input.length() <= 5 || input.substring(5).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of an event cannot be empty.\n" +
                     "Usage: event <description> /from <start> /to <end>");
@@ -290,15 +313,14 @@ public class Psyduck {
         }
 
         taskList.addEvent(description, from, to);
-        printSuccessMessage(taskList);
+        saveToStorage();
+        printSuccessMessage();
     }
 
     /**
      * Prints success message after adding a task.
-     *
-     * @param taskList The task list containing the newly added task.
      */
-    private static void printSuccessMessage(TaskList taskList) {
+    private void printSuccessMessage() {
         printDivider();
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + taskList.get(taskList.size() - 1));
@@ -309,7 +331,16 @@ public class Psyduck {
     /**
      * Prints a divider line to the console.
      */
-    private static void printDivider() {
+    private void printDivider() {
         System.out.println("____________________________________________________________");
+    }
+
+    /**
+     * Starts the application and processes user commands until exit.
+     *
+     * @param args Command-line arguments (not used)
+     */
+    public static void main(String[] args) {
+        new Psyduck().run();
     }
 }
