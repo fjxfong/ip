@@ -1,5 +1,7 @@
+package psyduck;
+
 /**
- * Represents the types of commands that Psyduck can process.
+ * Represents the types of commands that psyduck.Psyduck can process.
  */
 public enum CommandType {
     BYE,

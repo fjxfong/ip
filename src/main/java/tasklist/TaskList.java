@@ -1,7 +1,10 @@
 package tasklist;
 
 import java.util.ArrayList;
-import task.*;
+import task.Task;
+import task.Event;
+import task.ToDo;
+import task.Deadline;
 
 /**
  * Manages a collection of tasks and provides operations to modify them

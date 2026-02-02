@@ -1,8 +1,11 @@
+package psyduck;
+
 import java.util.Scanner;
+
 import tasklist.TaskList;
 
 /**
- * Runs the Psyduck task management chatbot application.
+ * Runs the psyduck.Psyduck task management chatbot application.
  * Handles user input and delegates task operation to the Tasklist.
  */
 public class Psyduck {

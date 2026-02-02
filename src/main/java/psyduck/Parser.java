@@ -1,3 +1,5 @@
+package psyduck;
+
 /**
  * Handles parsing of user input commands.
  */

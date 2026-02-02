@@ -1,9 +1,11 @@
+package psyduck;
+
 /**
- * Represents exceptions specific to Psyduck chatbot.
+ * Represents exceptions specific to psyduck.Psyduck chatbot.
  */
 public class PsyduckException extends Exception {
     /**
-     * Creates a new PsyduckException with the given message.
+     * Creates a new psyduck.PsyduckException with the given message.
      *
      * @param message Error message to display.
      */
