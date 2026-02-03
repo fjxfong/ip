@@ -1,9 +1,29 @@
-todo borrow book
-list
+# Empty description errors
 todo
-mark 1
-list
+deadline
+event
+
+# Missing keywords
+deadline return book
+event meeting /from 2024-12-20
+
+# Missing date parts
+event meeting /from /to 2024-12-20
+event meeting /from 2024-12-20 /to
+
+# Invalid task numbers
+mark
+mark abc
+mark 0
+mark 999
+
+# Unknown commands
 blah
-unmark 1
-list
-bye
+hello
+asdfgh
+
+# Delete errors
+delete
+delete abc
+delete 0
+delete 999
