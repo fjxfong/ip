@@ -1,11 +1,11 @@
 package psyduck;
 
 import psyduck.command.Command;
-import storage.Storage;
-import tasklist.TaskList;
+import psyduck.storage.Storage;
+import psyduck.tasklist.TaskList;
 
 /**
- * Runs the Psyduck task management chatbot application.
+ * Runs the Psyduck psyduck.task management chatbot application.
  * Main entry point of the application.
  */
 public class Psyduck {
@@ -48,7 +48,7 @@ public class Psyduck {
             } catch (PsyduckException e) {
                 ui.showError(e.getMessage());
             } catch (NumberFormatException e) {
-                ui.showError("OOPS!!! Please provide a valid task number!");
+                ui.showError("OOPS!!! Please provide a valid psyduck.task number!");
             } catch (Exception e) {
                 ui.showError("OOPS!!! Something went wrong: " + e.getMessage());
             } finally {

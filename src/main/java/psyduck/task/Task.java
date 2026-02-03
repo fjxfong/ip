@@ -1,16 +1,16 @@
-package task;
+package psyduck.task;
 
 /**
- * Represents a single task with a description and completion status.
+ * Represents a single psyduck.task with a description and completion status.
  */
 public class Task {
-    protected String description; // Description of task
-    protected boolean isDone; // Indicates whether the task has been completed
+    protected String description; // Description of psyduck.task
+    protected boolean isDone; // Indicates whether the psyduck.task has been completed
 
     /**
-     * Creates a new task with the given description.
+     * Creates a new psyduck.task with the given description.
      *
-     * @param description Description of the task.
+     * @param description Description of the psyduck.task.
      */
     public Task (String description) {
         this.description = description;
@@ -18,30 +18,30 @@ public class Task {
     }
 
     /**
-     * Marks the task as completed.
+     * Marks the psyduck.task as completed.
      */
     public void mark() {
         isDone = true;
     }
 
     /**
-     * Marks the task as not completed.
+     * Marks the psyduck.task as not completed.
      */
     public void unmark() {
         isDone = false;
     }
 
     /**
-     * Returns whether the task is done.
+     * Returns whether the psyduck.task is done.
      *
-     * @return True if task is done, false otherwise.
+     * @return True if psyduck.task is done, false otherwise.
      */
     public boolean isDone() {
         return isDone;
     }
 
     /**
-     * returns the description of the task.
+     * returns the description of the psyduck.task.
      *
      * @return Task description.
      */
@@ -60,7 +60,7 @@ public class Task {
     }
 
     /**
-     * Returns a formatted string representation of the task.
+     * Returns a formatted string representation of the psyduck.task.
      *
      * @return Task description with completion status.
      */

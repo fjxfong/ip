@@ -1,10 +1,10 @@
-package storage;
+package psyduck.storage;
 
 import psyduck.PsyduckException;
-import task.Task;
-import task.ToDo;
-import task.Deadline;
-import task.Event;
+import psyduck.task.Task;
+import psyduck.task.ToDo;
+import psyduck.task.Deadline;
+import psyduck.task.Event;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -135,10 +135,10 @@ public class Storage {
     }
 
     /**
-     * Formats a task for saving to file.
+     * Formats a psyduck.task for saving to file.
      *
      * @param task Task to format.
-     * @return Formatted string representation of the task.
+     * @return Formatted string representation of the psyduck.task.
      */
     private String formatTask(Task task) {
         String type;

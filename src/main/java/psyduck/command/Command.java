@@ -2,8 +2,8 @@ package psyduck.command;
 
 import psyduck.Ui;
 import psyduck.PsyduckException;
-import storage.Storage;
-import tasklist.TaskList;
+import psyduck.storage.Storage;
+import psyduck.tasklist.TaskList;
 
 /**
  * Abstract base class for all commands.
@@ -24,7 +24,7 @@ public abstract class Command {
     /**
      * Executes the command.
      *
-     * @param taskList The task list to operate on.
+     * @param taskList The psyduck.task list to operate on.
      * @param ui The Ui instance for user interaction.
      * @param storage The Storage instance for data persistence.
      * @throws PsyduckException If the command encounters an error.

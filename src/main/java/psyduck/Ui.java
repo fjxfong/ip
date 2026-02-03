@@ -65,51 +65,51 @@ public class Ui {
      * Displays an error message when loading tasks fails.
      */
     public void showLoadingError() {
-        System.out.println("☹ Error loading tasks. Starting with an empty task list.");
+        System.out.println("☹ Error loading tasks. Starting with an empty psyduck.task list.");
     }
 
     /**
-     * Displays a message after successfully adding a task.
+     * Displays a message after successfully adding a psyduck.task.
      *
-     * @param task The task that was added.
+     * @param task The psyduck.task that was added.
      * @param totalTasks The total number of tasks in the list.
      */
     public void showAddedTask(String task, int totalTasks) {
-        System.out.println("Got it. I've added this task:");
+        System.out.println("Got it. I've added this psyduck.task:");
         System.out.println("  " + task);
-        System.out.println("Now you have " + totalTasks + " task(s) in the list.");
+        System.out.println("Now you have " + totalTasks + " psyduck.task(s) in the list.");
     }
 
     /**
-     * Displays a message after successfully marking a task as done.
+     * Displays a message after successfully marking a psyduck.task as done.
      *
-     * @param task The task that was marked.
+     * @param task The psyduck.task that was marked.
      */
     public void showMarkedTask(String task) {
-        System.out.println("Nice! I've marked this task as done:");
+        System.out.println("Nice! I've marked this psyduck.task as done:");
         System.out.println("  " + task);
     }
 
     /**
-     * Displays a message after successfully unmarking a task.
+     * Displays a message after successfully unmarking a psyduck.task.
      *
-     * @param task The task that was unmarked.
+     * @param task The psyduck.task that was unmarked.
      */
     public void showUnmarkedTask(String task) {
-        System.out.println("OK! I've marked this task as not done yet:");
+        System.out.println("OK! I've marked this psyduck.task as not done yet:");
         System.out.println("  " + task);
     }
 
     /**
-     * Displays a message after successfully deleting a task.
+     * Displays a message after successfully deleting a psyduck.task.
      *
-     * @param task The task that was deleted.
+     * @param task The psyduck.task that was deleted.
      * @param totalTasks The total number of tasks remaining.
      */
     public void showDeletedTask(String task, int totalTasks) {
-        System.out.println("Noted. I've removed this task:");
+        System.out.println("Noted. I've removed this psyduck.task:");
         System.out.println("  " + task);
-        System.out.println("Now you have " + totalTasks + " task(s) in the list.");
+        System.out.println("Now you have " + totalTasks + " psyduck.task(s) in the list.");
     }
 
     /**
@@ -119,7 +119,7 @@ public class Ui {
      */
     public void showTaskList(String taskListStr) {
         if (taskListStr.isEmpty()) {
-            System.out.println("Your task list is empty! Add some tasks to get started.");
+            System.out.println("Your psyduck.task list is empty! Add some tasks to get started.");
         } else {
             System.out.println("Here are the tasks in your list:");
             System.out.println(taskListStr);

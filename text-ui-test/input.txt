@@ -11,7 +11,7 @@ event meeting /from 2024-12-20
 event meeting /from /to 2024-12-20
 event meeting /from 2024-12-20 /to
 
-# Invalid task numbers
+# Invalid psyduck.task numbers
 mark
 mark abc
 mark 0

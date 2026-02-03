@@ -2,15 +2,14 @@ package psyduck.command;
 
 import psyduck.Ui;
 import psyduck.PsyduckException;
-import storage.Storage;
-import task.Deadline;
-import task.Event;
-import task.Task;
-import task.DateParser;
-import tasklist.TaskList;
+import psyduck.storage.Storage;
+import psyduck.task.Deadline;
+import psyduck.task.Event;
+import psyduck.task.Task;
+import psyduck.task.DateParser;
+import psyduck.tasklist.TaskList;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 
 /**
  * Command to find tasks on a specific date.
@@ -43,7 +42,7 @@ public class FindCommand extends Command {
     /**
      * Executes the command by finding and displaying matching tasks.
      *
-     * @param taskList The task list to search.
+     * @param taskList The psyduck.task list to search.
      * @param ui The Ui instance for displaying results.
      * @param storage The Storage instance (not used).
      */

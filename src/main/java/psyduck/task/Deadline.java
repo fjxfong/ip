@@ -1,19 +1,19 @@
-package task;
+package psyduck.task;
 
 import java.time.LocalDate;
 
 /**
- * Represents a task that need to be done before a specific date/time.
+ * Represents a psyduck.task that need to be done before a specific date/time.
  */
 public class Deadline extends Task{
 
-    private LocalDate by; // Deadline of the task
+    private LocalDate by; // Deadline of the psyduck.task
 
     /**
-     * Creates a new deadline task with the given description and deadline.
+     * Creates a new deadline psyduck.task with the given description and deadline.
      *
-     * @param desc Description of the task.
-     * @param by Deadline of the task.
+     * @param desc Description of the psyduck.task.
+     * @param by Deadline of the psyduck.task.
      */
     public Deadline(String desc, String by) {
         super(desc);
@@ -21,9 +21,9 @@ public class Deadline extends Task{
     }
 
     /**
-     * Creates a new deadline task with a LocalDate object.
+     * Creates a new deadline psyduck.task with a LocalDate object.
      *
-     * @param description Description of the task.
+     * @param description Description of the psyduck.task.
      * @param by Deadline as LocalDate.
      */
     public Deadline(String description, LocalDate by) {
@@ -32,7 +32,7 @@ public class Deadline extends Task{
     }
 
     /**
-     * Returns the deadline of the task as a formatted string.
+     * Returns the deadline of the psyduck.task as a formatted string.
      *
      * @return Deadline string in MMM dd yyyy format.
      */
@@ -41,7 +41,7 @@ public class Deadline extends Task{
     }
 
     /**
-     * Returns the deadline of the task as a LocalDate.
+     * Returns the deadline of the psyduck.task as a LocalDate.
      *
      * @return Deadline as LocalDate.
      */
@@ -50,18 +50,18 @@ public class Deadline extends Task{
     }
 
     /**
-     * Returns the deadline in storage format (yyyy-MM-dd).
+     * Returns the deadline in psyduck.storage format (yyyy-MM-dd).
      *
-     * @return Deadline string for storage.
+     * @return Deadline string for psyduck.storage.
      */
     public String getByForStorage() {
         return DateParser.formatForStorage(by);
     }
 
     /**
-     * Returns a formatted string representation of the deadline task.
+     * Returns a formatted string representation of the deadline psyduck.task.
      *
-     * @return Formatted task string including deadline.
+     * @return Formatted psyduck.task string including deadline.
      */
     @Override
     public String toString() {

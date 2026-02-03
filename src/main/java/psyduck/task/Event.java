@@ -1,19 +1,18 @@
-package task;
+package psyduck.task;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
- * Represents a task that start at a specific date/time and ends at a specific date/time
+ * Represents a psyduck.task that start at a specific date/time and ends at a specific date/time
  */
 public class Event extends Task {
     private LocalDate from; // Start time of the event
     private LocalDate to; // End time of the event
 
     /**
-     * Creates a new event task with the given description and time period.
+     * Creates a new event psyduck.task with the given description and time period.
      *
-     * @param description Description of the task.
+     * @param description Description of the psyduck.task.
      * @param from Start date of the event in yyyy-MM-dd format.
      * @param to End date of the event in yyyy-MM-dd format.
      */
@@ -24,9 +23,9 @@ public class Event extends Task {
     }
 
     /**
-     * Creates a new event task with LocalDate objects.
+     * Creates a new event psyduck.task with LocalDate objects.
      *
-     * @param description Description of the task.
+     * @param description Description of the psyduck.task.
      * @param from Start date as LocalDate.
      * @param to End date as LocalDate.
      */
@@ -73,27 +72,27 @@ public class Event extends Task {
     }
 
     /**
-     * Returns the start date in storage format (yyyy-MM-dd).
+     * Returns the start date in psyduck.storage format (yyyy-MM-dd).
      *
-     * @return Start date string for storage.
+     * @return Start date string for psyduck.storage.
      */
     public String getFromForStorage() {
         return DateParser.formatForStorage(from);
     }
 
     /**
-     * Returns the end date in storage format (yyyy-MM-dd).
+     * Returns the end date in psyduck.storage format (yyyy-MM-dd).
      *
-     * @return End date string for storage.
+     * @return End date string for psyduck.storage.
      */
     public String getToForStorage() {
         return DateParser.formatForStorage(to);
     }
 
     /**
-     * Returns a formatted string representation of the event task.
+     * Returns a formatted string representation of the event psyduck.task.
      *
-     * @return Formatted task string including time period.
+     * @return Formatted psyduck.task string including time period.
      */
     @Override
     public String toString() {

@@ -1,10 +1,10 @@
-package tasklist;
+package psyduck.tasklist;
 
 import java.util.ArrayList;
-import task.Task;
-import task.Event;
-import task.ToDo;
-import task.Deadline;
+import psyduck.task.Task;
+import psyduck.task.Event;
+import psyduck.task.ToDo;
+import psyduck.task.Deadline;
 
 /**
  * Manages a collection of tasks and provides operations to modify them
@@ -22,7 +22,7 @@ public class TaskList {
     /**
      * Creates a Tasklist with existing tasks.
      *
-     * @param tasks ArrayList of task to initialize with.
+     * @param tasks ArrayList of psyduck.task to initialize with.
      */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
@@ -38,37 +38,37 @@ public class TaskList {
     }
 
     /**
-     * Adds a new task to the list.
+     * Adds a new psyduck.task to the list.
      *
-     * @param description Description of the task.
+     * @param description Description of the psyduck.task.
      */
     public void add(String description) {
         tasks.add(new Task(description));
     }
 
     /**
-     * Adds a new to-do task to the list.
+     * Adds a new to-do psyduck.task to the list.
      *
-     * @param description Description of the task.
+     * @param description Description of the psyduck.task.
      */
     public void addToDo(String description) {
         tasks.add(new ToDo(description));
     }
 
     /**
-     * Adds a new deadline task to the list.
+     * Adds a new deadline psyduck.task to the list.
      *
-     * @param description Description of the task.
-     * @param by Deadline of the task.
+     * @param description Description of the psyduck.task.
+     * @param by Deadline of the psyduck.task.
      */
     public void addDeadline(String description, String by) {
         tasks.add(new Deadline(description, by));
     }
 
     /**
-     * Adds a new event task to the list.
+     * Adds a new event psyduck.task to the list.
      *
-     * @param description Description of the task.
+     * @param description Description of the psyduck.task.
      * @param from Start time of the event.
      * @param to End time of the event.
      */
@@ -77,35 +77,35 @@ public class TaskList {
     }
 
     /**
-     * Marks the specified task as completed.
+     * Marks the specified psyduck.task as completed.
      *
-     * @param index Zero-based index of the task.
+     * @param index Zero-based index of the psyduck.task.
      */
     public void markTask(int index) {
         tasks.get(index).mark();
     }
 
     /**
-     * Marks the specified task as not completed.
+     * Marks the specified psyduck.task as not completed.
      *
-     * @param index Zero-based index of the task.
+     * @param index Zero-based index of the psyduck.task.
      */
     public void unmarkTask(int index) {
         tasks.get(index).unmark();
     }
 
     /**
-     * Deletes the task at the specified index.
+     * Deletes the psyduck.task at the specified index.
      *
-     * @param index Zero-based index of the task to delete.
-     * @return The deleted task.
+     * @param index Zero-based index of the psyduck.task to delete.
+     * @return The deleted psyduck.task.
      */
     public Task delete(int index) {
         return tasks.remove(index);
     }
 
     /**
-     * Returns a formatted list of all task.
+     * Returns a formatted list of all psyduck.task.
      *
      * @return Tasks formatted as a numbered list.
      */
@@ -120,16 +120,16 @@ public class TaskList {
     }
 
     /**
-     * Returns the number of task in the list.
+     * Returns the number of psyduck.task in the list.
      *
-     * @return Number of task
+     * @return Number of psyduck.task
      */
     public int size() {
         return tasks.size();
     }
 
     /**
-     * Returns the task at the specified index
+     * Returns the psyduck.task at the specified index
      *
      * @param index Zero-based index.
      * @return Task at the given index
