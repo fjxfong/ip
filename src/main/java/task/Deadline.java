@@ -1,8 +1,6 @@
 package task;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 /**
  * Represents a task that need to be done before a specific date/time.
@@ -10,10 +8,6 @@ import java.time.format.DateTimeParseException;
 public class Deadline extends Task{
 
     private LocalDate by; // Deadline of the task
-    /** Formatter for parsing input dates (yyyy-MM-dd). */
-    private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    /** Formatter for displaying dates (MMM dd yyyy). */
-    private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy");
 
     /**
      * Creates a new deadline task with the given description and deadline.
@@ -23,16 +17,7 @@ public class Deadline extends Task{
      */
     public Deadline(String desc, String by) {
         super(desc);
-        try {
-            this.by = LocalDate.parse(by, INPUT_FORMATTER);
-        } catch (DateTimeParseException e) {
-            try {
-                this.by = LocalDate.parse(by);
-            } catch (DateTimeParseException ex) {
-                // if still fails, store as null
-                this.by = null;
-            }
-        }
+        this.by = DateParser.parseDate(by);
     }
 
     /**
@@ -52,7 +37,7 @@ public class Deadline extends Task{
      * @return Deadline string in MMM dd yyyy format.
      */
     public String getBy() {
-        return by != null ? by.format(OUTPUT_FORMATTER) : "Invalid date";
+        return DateParser.formatForDisplay(by);
     }
 
     /**
@@ -70,7 +55,7 @@ public class Deadline extends Task{
      * @return Deadline string for storage.
      */
     public String getByForStorage() {
-        return by != null ? by.format(INPUT_FORMATTER) : "";
+        return DateParser.formatForStorage(by);
     }
 
     /**
