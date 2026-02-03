@@ -1,412 +1,69 @@
 package psyduck;
 
-import java.util.Scanner;
-import java.util.ArrayList;
-import tasklist.TaskList;
+import psyduck.command.Command;
 import storage.Storage;
+import tasklist.TaskList;
 
 /**
  * Runs the Psyduck task management chatbot application.
- * Handles user input and delegates task operation to the Tasklist.
+ * Main entry point of the application.
  */
 public class Psyduck {
     private static final String FILE_PATH = "./data/psyduck.txt";
     private final Storage storage;
     private TaskList taskList;
+    private final Ui ui;
 
     /**
-     * Creates a new Psyduck instance.
+     * Creates a new Psyduck instance, loading any saved tasks.
+     *
+     * @param filePath Path to the data file.
      */
-    public Psyduck() {
-        storage = new Storage(FILE_PATH);
+    public Psyduck(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
         try {
             taskList = new TaskList(storage.load());
         } catch (PsyduckException e) {
-            System.out.println("Error loading tasks: " + e.getMessage());
-            System.out.println("Starting with an empty task list.");
+            ui.showLoadingError();
             taskList = new TaskList();
         }
     }
 
     /**
      * Runs the main application loop.
+     * Reads user input, parses it into commands, and executes them.
      */
     public void run() {
-        Scanner scanner = new Scanner(System.in);
-        String greeting = """
-                ____________________________________________________________\s
-                Hello! I'm Psyduck\s
-                What can I do for you?\s
-                ____________________________________________________________""";
-        System.out.println(greeting);
+        ui.showWelcome();
+        boolean isExit = false;
 
-        // Continuously read and process user input until "bye" is entered
-        while (true) {
+        while (!isExit) {
             try {
-                String input = scanner.nextLine().trim();
-
-                if (input.isEmpty()) {
-                    throw new PsyduckException("Please enter a command!");
-                }
-
-                CommandType command = Parser.parseCommand(input);
-
-                switch (command) {
-                    case BYE:
-                        printDivider();
-                        System.out.println("Bye. Hope to see you again soon!");
-                        printDivider();
-                        scanner.close();
-                        return;
-                    case LIST:
-                        handleList();
-                        break;
-                    case MARK:
-                        handleMark(input);
-                        break;
-                    case UNMARK:
-                        handleUnmark(input);
-                        break;
-                    case DELETE:
-                        handleDelete(input);
-                        break;
-                    case TODO:
-                        handleToDo(input);
-                        break;
-                    case DEADLINE:
-                        handleDeadline(input);
-                        break;
-                    case EVENT:
-                        handleEvent(input);
-                        break;
-                    case FIND_DATE:
-                        handleFindDate(input);
-                        break;
-                    case UNKNOWN:
-                        throw new PsyduckException("OOPS!!! I'm sorry, but I don't know what that means :-(");
-                }
+                String fullCommand = ui.readCommand();
+                ui.showLine();
+                Command c = Parser.parse(fullCommand);
+                c.execute(taskList, ui, storage);
+                isExit = c.isExit();
             } catch (PsyduckException e) {
-                printDivider();
-                System.out.println("☹ " + e.getMessage());
-                printDivider();
-            } catch (IndexOutOfBoundsException e) {
-                printDivider();
-                System.out.println("☹ OOPS!!! That task number doesn't exist in your list!");
-                printDivider();
+                ui.showError(e.getMessage());
             } catch (NumberFormatException e) {
-                printDivider();
-                System.out.println("☹ OOPS!!! Please provide a valid task number!");
-                printDivider();
+                ui.showError("OOPS!!! Please provide a valid task number!");
             } catch (Exception e) {
-                printDivider();
-                System.out.println("☹ OOPS!!! Something went wrong: " + e.getMessage());
-                printDivider();
+                ui.showError("OOPS!!! Something went wrong: " + e.getMessage());
+            } finally {
+                ui.showLine();
             }
         }
+        ui.close();
     }
 
     /**
-     * Saves tasks to storage.
-     */
-    private void saveToStorage() {
-        try {
-            storage.save(taskList.getTasks());
-        } catch (PsyduckException e) {
-            System.out.println("Error saving tasks: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Handles the list command to display all tasks.
-     */
-    private void handleList() {
-        printDivider();
-        if (taskList.size() == 0) {
-            System.out.println("Your task list is empty! Add some tasks to get started.");
-        } else {
-            System.out.println("Here are the tasks in your list:");
-            System.out.println(taskList.list());
-        }
-        printDivider();
-    }
-
-    /**
-     * Handles marking a task as done.
+     * Starts the application.
      *
-     * @param input User input string.
-     * @throws PsyduckException If the input is invalid.
-     */
-    private void handleMark(String input) throws PsyduckException {
-        if (input.length() <= 5 || input.substring(5).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! Please specify which task to mark!\n" +
-                    "Usage: mark <task number>");
-        }
-
-        int taskIndex = Integer.parseInt(input.substring(5).trim()) - 1;
-
-        if (taskIndex < 0 || taskIndex >= taskList.size()) {
-            throw new PsyduckException("OOPS!!! Task number " + (taskIndex + 1) +
-                    " doesn't exist! You have " + taskList.size() + " task(s).");
-        }
-
-        taskList.markTask(taskIndex);
-        saveToStorage();
-        printDivider();
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + taskList.get(taskIndex));
-        printDivider();
-    }
-
-    /**
-     * Handles unmarking a task as not done.
-     *
-     * @param input User input string.
-     * @throws PsyduckException If the input is invalid.
-     */
-    private void handleUnmark(String input) throws PsyduckException {
-        if (input.length() <= 7 || input.substring(7).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! Please specify which task to unmark!\n" +
-                    "Usage: unmark <task number>");
-        }
-
-        int taskIndex = Integer.parseInt(input.substring(7).trim()) - 1;
-
-        if (taskIndex < 0 || taskIndex >= taskList.size()) {
-            throw new PsyduckException("OOPS!!! Task number " + (taskIndex + 1) +
-                    " doesn't exist! You have " + taskList.size() + " task(s).");
-        }
-
-        taskList.unmarkTask(taskIndex);
-        saveToStorage();
-        printDivider();
-        System.out.println("OK! I've marked this task as not done yet:");
-        System.out.println("  " + taskList.get(taskIndex));
-        printDivider();
-    }
-
-    /**
-     * Handles deleting a task from the list.
-     *
-     * @param input User input string.
-     * @throws PsyduckException If the input is invalid.
-     */
-    private void handleDelete(String input) throws PsyduckException {
-        if (input.length() <= 7 || input.substring(7).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! Please specify which task to delete!\n" +
-                    "Usage: delete <task number>");
-        }
-
-        int taskIndex = Integer.parseInt(input.substring(7).trim()) - 1;
-
-        if (taskIndex < 0 || taskIndex >= taskList.size()) {
-            throw new PsyduckException("OOPS!!! Task number " + (taskIndex + 1) +
-                    " doesn't exist! You have " + taskList.size() + " task(s).");
-        }
-
-        task.Task deletedTask = taskList.delete(taskIndex);
-        saveToStorage();
-        printDivider();
-        System.out.println("Noted. I've removed this task:");
-        System.out.println("  " + deletedTask);
-        System.out.println("Now you have " + taskList.size() + " task(s) in the list.");
-        printDivider();
-    }
-
-    /**
-     * Handles adding a ToDo task.
-     *
-     * @param input User input string.
-     * @throws PsyduckException If the input is invalid.
-     */
-    private void handleToDo(String input) throws PsyduckException {
-        if (input.length() <= 4 || input.substring(4).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! The description of a todo cannot be empty.\n" +
-                    "Usage: todo <description>");
-        }
-
-        String description = input.substring(5).trim();
-        taskList.addToDo(description);
-        saveToStorage();
-        printSuccessMessage();
-    }
-
-    /**
-     * Handles adding a Deadline task.
-     *
-     * @param input User input string.
-     * @throws PsyduckException If the input is invalid.
-     */
-    private void handleDeadline(String input) throws PsyduckException {
-        if (input.length() <= 8 || input.substring(8).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
-        }
-
-        String details = input.substring(9).trim();
-        int byIndex = details.indexOf("/by");
-
-        if (byIndex == -1) {
-            throw new PsyduckException("OOPS!!! Please specify the deadline with /by.\n" +
-                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
-        }
-
-        String description = details.substring(0, byIndex).trim();
-        if (description.isEmpty()) {
-            throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
-        }
-
-        if (byIndex + 3 >= details.length()) {
-            throw new PsyduckException("OOPS!!! The deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
-        }
-
-        String by = details.substring(byIndex + 3).trim();
-        if (by.isEmpty()) {
-            throw new PsyduckException("OOPS!!! The deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
-        }
-
-        taskList.addDeadline(description, by);
-        saveToStorage();
-        printSuccessMessage();
-    }
-
-    /**
-     * Handles adding an Event task.
-     *
-     * @param input User input string.
-     * @throws PsyduckException If the input is invalid.
-     */
-    /**
-     * Handles adding an Event task.
-     *
-     * @param input User input string.
-     * @throws PsyduckException If the input is invalid.
-     */
-    private void handleEvent(String input) throws PsyduckException {
-        if (input.length() <= 5 || input.substring(5).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! The description of an event cannot be empty.\n" +
-                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
-        }
-
-        String details = input.substring(6).trim();
-        int fromIndex = details.indexOf("/from");
-        int toIndex = details.indexOf("/to");
-
-        if (fromIndex == -1 || toIndex == -1) {
-            throw new PsyduckException("OOPS!!! Please specify the event time with /from and /to.\n" +
-                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
-        }
-
-        if (fromIndex >= toIndex) {
-            throw new PsyduckException("OOPS!!! /from must come before /to.\n" +
-                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
-        }
-
-        String description = details.substring(0, fromIndex).trim();
-        if (description.isEmpty()) {
-            throw new PsyduckException("OOPS!!! The description of an event cannot be empty.\n" +
-                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
-        }
-
-        String from = details.substring(fromIndex + 5, toIndex).trim();
-        if (from.isEmpty()) {
-            throw new PsyduckException("OOPS!!! The start time cannot be empty.\n" +
-                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
-        }
-
-        String to = details.substring(toIndex + 3).trim();
-        if (to.isEmpty()) {
-            throw new PsyduckException("OOPS!!! The end time cannot be empty.\n" +
-                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
-        }
-
-        taskList.addEvent(description, from, to);
-        saveToStorage();
-        printSuccessMessage();
-    }
-
-    /**
-     * Handles finding tasks on a specific date.
-     *
-     * @param input User input string.
-     * @throws PsyduckException If the input is invalid.
-     */
-    private void handleFindDate(String input) throws PsyduckException {
-        if (input.length() <= 5 || input.substring(5).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! Please specify a date to search for.\n" +
-                    "Usage: find <date in yyyy-MM-dd format>");
-        }
-
-        String dateStr = input.substring(5).trim();
-
-        try {
-            java.time.LocalDate searchDate = java.time.LocalDate.parse(dateStr,
-                    java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-            ArrayList<task.Task> matchingTasks = new ArrayList<>();
-
-            for (int i = 0; i < taskList.size(); i++) {
-                task.Task task = taskList.get(i);
-
-                if (task instanceof task.Deadline) {
-                    task.Deadline deadline = (task.Deadline) task;
-                    if (deadline.getByDate() != null && deadline.getByDate().equals(searchDate)) {
-                        matchingTasks.add(task);
-                    }
-                } else if (task instanceof task.Event) {
-                    task.Event event = (task.Event) task;
-                    if ((event.getFromDate() != null && !event.getFromDate().isAfter(searchDate)) &&
-                            (event.getToDate() != null && !event.getToDate().isBefore(searchDate))) {
-                        matchingTasks.add(task);
-                    }
-                }
-            }
-
-            printDivider();
-            if (matchingTasks.isEmpty()) {
-                System.out.println("No tasks found on " + searchDate.format(
-                        java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy")));
-            } else {
-                System.out.println("Tasks on " + searchDate.format(
-                        java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
-                for (int i = 0; i < matchingTasks.size(); i++) {
-                    System.out.println((i + 1) + "." + matchingTasks.get(i));
-                }
-            }
-            printDivider();
-
-        } catch (java.time.format.DateTimeParseException e) {
-            throw new PsyduckException("OOPS!!! Invalid date format. Please use yyyy-MM-dd format.\n" +
-                    "Example: find 2024-12-25");
-        }
-    }
-
-    /**
-     * Prints success message after adding a task.
-     */
-    private void printSuccessMessage() {
-        printDivider();
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + taskList.get(taskList.size() - 1));
-        System.out.println("Now you have " + taskList.size() + " task(s) in the list.");
-        printDivider();
-    }
-
-    /**
-     * Prints a divider line to the console.
-     */
-    private void printDivider() {
-        System.out.println("____________________________________________________________");
-    }
-
-    /**
-     * Starts the application and processes user commands until exit.
-     *
-     * @param args Command-line arguments (not used)
+     * @param args Command-line arguments (not used).
      */
     public static void main(String[] args) {
-        new Psyduck().run();
+        new Psyduck(FILE_PATH).run();
     }
 }
