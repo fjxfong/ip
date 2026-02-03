@@ -1,4 +1,4 @@
-package task;
+package psyduck.task;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,7 +26,7 @@ public class DateParser {
     public static final DateTimeFormatter OUTPUT_FORMATTER =
             DateTimeFormatter.ofPattern("MMM dd yyyy");
 
-    /** Formatter for storage. */
+    /** Formatter for psyduck.storage. */
     public static final DateTimeFormatter STORAGE_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -65,10 +65,10 @@ public class DateParser {
     }
 
     /**
-     * Formats a LocalDate for storage.
+     * Formats a LocalDate for psyduck.storage.
      *
      * @param date LocalDate to format.
-     * @return Formatted date string for storage, or empty string if null.
+     * @return Formatted date string for psyduck.storage, or empty string if null.
      */
     public static String formatForStorage(LocalDate date) {
         return date != null ? date.format(STORAGE_FORMATTER) : "";

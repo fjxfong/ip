@@ -2,11 +2,11 @@ package psyduck.command;
 
 import psyduck.Ui;
 import psyduck.PsyduckException;
-import storage.Storage;
-import tasklist.TaskList;
+import psyduck.storage.Storage;
+import psyduck.tasklist.TaskList;
 
 /**
- * Command to add a new ToDo task.
+ * Command to add a new ToDo psyduck.task.
  */
 public class ToDoCommand extends Command {
     private final String description;
@@ -26,9 +26,9 @@ public class ToDoCommand extends Command {
     }
 
     /**
-     * Executes the command by adding a ToDo task and saving.
+     * Executes the command by adding a ToDo psyduck.task and saving.
      *
-     * @param taskList The task list to add the task to.
+     * @param taskList The psyduck.task list to add the psyduck.task to.
      * @param ui The Ui instance for displaying the result.
      * @param storage The Storage instance for saving.
      * @throws PsyduckException If saving fails.

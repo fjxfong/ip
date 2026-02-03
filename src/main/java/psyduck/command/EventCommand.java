@@ -2,11 +2,11 @@ package psyduck.command;
 
 import psyduck.Ui;
 import psyduck.PsyduckException;
-import storage.Storage;
-import tasklist.TaskList;
+import psyduck.storage.Storage;
+import psyduck.tasklist.TaskList;
 
 /**
- * Command to add a new Event task.
+ * Command to add a new Event psyduck.task.
  */
 public class EventCommand extends Command {
     private final String description;
@@ -59,9 +59,9 @@ public class EventCommand extends Command {
     }
 
     /**
-     * Executes the command by adding an Event task and saving.
+     * Executes the command by adding an Event psyduck.task and saving.
      *
-     * @param taskList The task list to add the task to.
+     * @param taskList The psyduck.task list to add the psyduck.task to.
      * @param ui The Ui instance for displaying the result.
      * @param storage The Storage instance for saving.
      * @throws PsyduckException If saving fails.

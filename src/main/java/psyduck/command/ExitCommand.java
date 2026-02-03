@@ -1,9 +1,8 @@
 package psyduck.command;
 
 import psyduck.Ui;
-import psyduck.PsyduckException;
-import storage.Storage;
-import tasklist.TaskList;
+import psyduck.storage.Storage;
+import psyduck.tasklist.TaskList;
 
 /**
  * Command to exit the application.
@@ -20,7 +19,7 @@ public class ExitCommand extends Command {
     /**
      * Executes the exit command by displaying the goodbye message.
      *
-     * @param taskList The task list (not used).
+     * @param taskList The psyduck.task list (not used).
      * @param ui The Ui instance for displaying the exit message.
      * @param storage The Storage instance (not used).
      */
