@@ -26,6 +26,7 @@ public class Parser {
             case "todo" -> CommandType.TODO;
             case "deadline" -> CommandType.DEADLINE;
             case "event" -> CommandType.EVENT;
+            case "find" -> CommandType.FIND_DATE;
             default -> CommandType.UNKNOWN;
         };
     }

@@ -1,6 +1,7 @@
 package psyduck;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 import tasklist.TaskList;
 import storage.Storage;
 
@@ -77,6 +78,9 @@ public class Psyduck {
                         break;
                     case EVENT:
                         handleEvent(input);
+                        break;
+                    case FIND_DATE:
+                        handleFindDate(input);
                         break;
                     case UNKNOWN:
                         throw new PsyduckException("OOPS!!! I'm sorry, but I don't know what that means :-(");
@@ -235,7 +239,7 @@ public class Psyduck {
     private void handleDeadline(String input) throws PsyduckException {
         if (input.length() <= 8 || input.substring(8).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <deadline>");
+                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         String details = input.substring(9).trim();
@@ -243,24 +247,24 @@ public class Psyduck {
 
         if (byIndex == -1) {
             throw new PsyduckException("OOPS!!! Please specify the deadline with /by.\n" +
-                    "Usage: deadline <description> /by <deadline>");
+                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         String description = details.substring(0, byIndex).trim();
         if (description.isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <deadline>");
+                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         if (byIndex + 3 >= details.length()) {
             throw new PsyduckException("OOPS!!! The deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <deadline>");
+                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         String by = details.substring(byIndex + 3).trim();
         if (by.isEmpty()) {
             throw new PsyduckException("OOPS!!! The deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <deadline>");
+                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         taskList.addDeadline(description, by);
@@ -274,10 +278,16 @@ public class Psyduck {
      * @param input User input string.
      * @throws PsyduckException If the input is invalid.
      */
+    /**
+     * Handles adding an Event task.
+     *
+     * @param input User input string.
+     * @throws PsyduckException If the input is invalid.
+     */
     private void handleEvent(String input) throws PsyduckException {
         if (input.length() <= 5 || input.substring(5).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of an event cannot be empty.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         String details = input.substring(6).trim();
@@ -286,35 +296,91 @@ public class Psyduck {
 
         if (fromIndex == -1 || toIndex == -1) {
             throw new PsyduckException("OOPS!!! Please specify the event time with /from and /to.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         if (fromIndex >= toIndex) {
             throw new PsyduckException("OOPS!!! /from must come before /to.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         String description = details.substring(0, fromIndex).trim();
         if (description.isEmpty()) {
             throw new PsyduckException("OOPS!!! The description of an event cannot be empty.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         String from = details.substring(fromIndex + 5, toIndex).trim();
         if (from.isEmpty()) {
             throw new PsyduckException("OOPS!!! The start time cannot be empty.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         String to = details.substring(toIndex + 3).trim();
         if (to.isEmpty()) {
             throw new PsyduckException("OOPS!!! The end time cannot be empty.\n" +
-                    "Usage: event <description> /from <start> /to <end>");
+                    "Usage: event <description> /from <date in yyyy-MM-dd> /to <date in yyyy-MM-dd>");
         }
 
         taskList.addEvent(description, from, to);
         saveToStorage();
         printSuccessMessage();
+    }
+
+    /**
+     * Handles finding tasks on a specific date.
+     *
+     * @param input User input string.
+     * @throws PsyduckException If the input is invalid.
+     */
+    private void handleFindDate(String input) throws PsyduckException {
+        if (input.length() <= 5 || input.substring(5).trim().isEmpty()) {
+            throw new PsyduckException("OOPS!!! Please specify a date to search for.\n" +
+                    "Usage: find <date in yyyy-MM-dd format>");
+        }
+
+        String dateStr = input.substring(5).trim();
+
+        try {
+            java.time.LocalDate searchDate = java.time.LocalDate.parse(dateStr,
+                    java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            ArrayList<task.Task> matchingTasks = new ArrayList<>();
+
+            for (int i = 0; i < taskList.size(); i++) {
+                task.Task task = taskList.get(i);
+
+                if (task instanceof task.Deadline) {
+                    task.Deadline deadline = (task.Deadline) task;
+                    if (deadline.getByDate() != null && deadline.getByDate().equals(searchDate)) {
+                        matchingTasks.add(task);
+                    }
+                } else if (task instanceof task.Event) {
+                    task.Event event = (task.Event) task;
+                    if ((event.getFromDate() != null && !event.getFromDate().isAfter(searchDate)) &&
+                            (event.getToDate() != null && !event.getToDate().isBefore(searchDate))) {
+                        matchingTasks.add(task);
+                    }
+                }
+            }
+
+            printDivider();
+            if (matchingTasks.isEmpty()) {
+                System.out.println("No tasks found on " + searchDate.format(
+                        java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy")));
+            } else {
+                System.out.println("Tasks on " + searchDate.format(
+                        java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
+                for (int i = 0; i < matchingTasks.size(); i++) {
+                    System.out.println((i + 1) + "." + matchingTasks.get(i));
+                }
+            }
+            printDivider();
+
+        } catch (java.time.format.DateTimeParseException e) {
+            throw new PsyduckException("OOPS!!! Invalid date format. Please use yyyy-MM-dd format.\n" +
+                    "Example: find 2024-12-25");
+        }
     }
 
     /**
