@@ -1,11 +1,31 @@
 package psyduck.command;
 
+import psyduck.Ui;
+import psyduck.PsyduckException;
+import storage.Storage;
+import tasklist.TaskList;
 
-import java.io.*;
-import java.util.*;
+/**
+ * Command to exit the application.
+ */
+public class ExitCommand extends Command {
 
-public class ExitCommand {
-    public static void main(String[] args) {
-        
+    /**
+     * Creates a new ExitCommand.
+     */
+    public ExitCommand() {
+        this.isExit = true;
+    }
+
+    /**
+     * Executes the exit command by displaying the goodbye message.
+     *
+     * @param taskList The task list (not used).
+     * @param ui The Ui instance for displaying the exit message.
+     * @param storage The Storage instance (not used).
+     */
+    @Override
+    public void execute(TaskList taskList, Ui ui, Storage storage) {
+        ui.showExit();
     }
 }
