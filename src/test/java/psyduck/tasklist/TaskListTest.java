@@ -81,8 +81,8 @@ public class TaskListTest {
     public void testListMultipleTasks() {
         taskList.addToDo("borrow book");
         taskList.addDeadline("return book", "2024-12-15");
-        String expected = "1.[T][ ] borrow book\n"
-                + "2.[D][ ] return book (by: Dec 15 2024)\n";
+        String expected = "1. [T][ ] borrow book\n"
+                + "2. [D][ ] return book (by: Dec 15 2024)\n";
         assertEquals(expected, taskList.list());
     }
 

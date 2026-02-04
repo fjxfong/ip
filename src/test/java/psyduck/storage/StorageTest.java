@@ -10,6 +10,7 @@ import psyduck.task.Task;
 import psyduck.task.ToDo;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -104,7 +105,7 @@ public class StorageTest {
     }
 
     @Test
-    public void testLoadCorruptedFile() throws PsyduckException {
+    public void testLoadCorruptedFile() throws PsyduckException, IOException {
         // Write corrupted data manually
         Files.writeString(Paths.get(TEST_FILE_PATH), "corrupted data\n");
 
@@ -114,7 +115,7 @@ public class StorageTest {
     }
 
     @Test
-    public void testLoadPartiallyCorruptedFile() throws PsyduckException {
+    public void testLoadPartiallyCorruptedFile() throws PsyduckException, IOException {
         // Write mix of valid and corrupted data
         String content = "T | 0 | borrow book\n"
                 + "corrupted line\n"
