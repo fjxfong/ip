@@ -10,6 +10,7 @@ import psyduck.command.ExitCommand;
 import psyduck.command.ListCommand;
 import psyduck.command.MarkCommand;
 import psyduck.command.UnmarkCommand;
+import psyduck.command.SearchCommand;
 
 /**
  * Handles parsing of user input commands and creates the appropriate Command Object.
@@ -39,7 +40,8 @@ public class Parser {
             case "todo" -> new ToDoCommand(input);
             case "deadline" -> new DeadlineCommand(input);
             case "event" -> new EventCommand(input);
-            case "find" -> new FindCommand(input);
+            case "find" -> new SearchCommand(input);
+            case "finddate" -> new FindCommand(input);
             default -> throw new PsyduckException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         };
     }
