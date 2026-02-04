@@ -6,9 +6,12 @@ import psyduck.storage.Storage;
 import psyduck.tasklist.TaskList;
 
 /**
- * Command to add a new ToDo psyduck.task.
+ * Command to add a new ToDo task.
  */
 public class ToDoCommand extends Command {
+    private static final String COMMAND_WORD = "todo";
+    private static final int COMMAND_WORD_LENGTH = 4;
+
     private final String description;
 
     /**
@@ -18,17 +21,18 @@ public class ToDoCommand extends Command {
      * @throws PsyduckException If the description is empty.
      */
     public ToDoCommand(String input) throws PsyduckException {
-        if (input.length() <= 4 || input.substring(4).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! The description of a todo cannot be empty.\n" +
-                    "Usage: todo <description>");
+        if (input.length() <= COMMAND_WORD_LENGTH
+                || input.substring(COMMAND_WORD_LENGTH).trim().isEmpty()) {
+            throw new PsyduckException("OOPS!!! The description of a todo cannot be empty.\n"
+                    + "Usage: todo <description>");
         }
-        this.description = input.substring(5).trim();
+        this.description = input.substring(COMMAND_WORD_LENGTH + 1).trim();
     }
 
     /**
-     * Executes the command by adding a ToDo psyduck.task and saving.
+     * Executes the command by adding a ToDo task and saving.
      *
-     * @param taskList The psyduck.task list to add the psyduck.task to.
+     * @param taskList The task list to add the task to.
      * @param ui The Ui instance for displaying the result.
      * @param storage The Storage instance for saving.
      * @throws PsyduckException If saving fails.
