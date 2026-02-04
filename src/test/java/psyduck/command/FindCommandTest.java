@@ -30,37 +30,37 @@ public class FindCommandTest {
     @Test
     public void testFindMatchesDeadline() throws PsyduckException {
         // Should not throw; deadline matches 2024-12-15
-        Command command = new FindCommand("find 2024-12-15");
+        Command command = new FindCommand("finddate 2024-12-15");
         command.execute(taskList, ui, storage);
     }
 
     @Test
     public void testFindMatchesEventWithinRange() throws PsyduckException {
         // Event spans 2024-12-14 to 2024-12-16, so 2024-12-15 is within range
-        Command command = new FindCommand("find 2024-12-15");
+        Command command = new FindCommand("finddate 2024-12-15");
         command.execute(taskList, ui, storage);
     }
 
     @Test
     public void testFindNoMatch() throws PsyduckException {
         // No tasks on 2025-01-01
-        Command command = new FindCommand("find 2025-01-01");
+        Command command = new FindCommand("finddate 2025-01-01");
         command.execute(taskList, ui, storage);
     }
 
     @Test
     public void testFindMissingDateThrowsException() {
-        assertThrows(PsyduckException.class, () -> new FindCommand("find"));
+        assertThrows(PsyduckException.class, () -> new FindCommand("finddate"));
     }
 
     @Test
     public void testFindInvalidDateThrowsException() {
-        assertThrows(PsyduckException.class, () -> new FindCommand("find not-a-date"));
+        assertThrows(PsyduckException.class, () -> new FindCommand("finddate not-a-date"));
     }
 
     @Test
     public void testIsNotExitCommand() throws PsyduckException {
-        Command command = new FindCommand("find 2024-12-15");
+        Command command = new FindCommand("finddate 2024-12-15");
         assertFalse(command.isExit());
     }
 }

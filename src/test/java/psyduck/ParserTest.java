@@ -62,7 +62,13 @@ public class ParserTest {
 
     @Test
     public void testParseFindCommand() throws PsyduckException {
-        Command command = Parser.parse("find 2024-12-15");
+        Command command = Parser.parse("find book");
+        assertInstanceOf(SearchCommand.class, command);
+    }
+
+    @Test
+    public void testParseFindDateCommand() throws PsyduckException {
+        Command command = Parser.parse("finddate 2024-12-15");
         assertInstanceOf(FindCommand.class, command);
     }
 
@@ -112,12 +118,17 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseFindMissingDate() {
+    public void testParseFindMissingKeyword() {
         assertThrows(PsyduckException.class, () -> Parser.parse("find"));
     }
 
     @Test
-    public void testParseFindInvalidDate() {
-        assertThrows(PsyduckException.class, () -> Parser.parse("find not-a-date"));
+    public void testParseFindDateMissingDate() {
+        assertThrows(PsyduckException.class, () -> Parser.parse("finddate"));
+    }
+
+    @Test
+    public void testParseFindDateInvalidDate() {
+        assertThrows(PsyduckException.class, () -> Parser.parse("finddate not-a-date"));
     }
 }

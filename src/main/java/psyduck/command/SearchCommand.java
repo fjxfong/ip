@@ -19,11 +19,16 @@ public class SearchCommand extends Command {
      * @throws PsyduckException If the keyword is empty.
      */
     public SearchCommand(String input) throws PsyduckException {
-        if (input.length() <= 6 || input.substring(6).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! Please specify a keyword to search for.\n"
-                    + "Usage: search <keyword>");
+        // Input format: "find book" or "search book"
+        // "find" = 4 characters, "search" = 6 characters
+        String commandWord = input.split(" ")[0];
+        int prefixLength = commandWord.length();
+
+        if (input.length() <= prefixLength || input.substring(prefixLength).trim().isEmpty()) {
+            throw new PsyduckException("OOPS!!! Please specify a keyword to search for.\n" +
+                    "Usage: find <keyword>");
         }
-        this.keyword = input.substring(7).trim().toLowerCase();
+        this.keyword = input.substring(prefixLength + 1).trim().toLowerCase();
     }
 
     /**

@@ -3,10 +3,10 @@ package psyduck.command;
 import psyduck.Ui;
 import psyduck.PsyduckException;
 import psyduck.storage.Storage;
+import psyduck.task.DateParser;
 import psyduck.task.Deadline;
 import psyduck.task.Event;
 import psyduck.task.Task;
-import psyduck.task.DateParser;
 import psyduck.tasklist.TaskList;
 
 import java.time.LocalDate;
@@ -24,25 +24,27 @@ public class FindCommand extends Command {
      * @throws PsyduckException If the date is invalid or missing.
      */
     public FindCommand(String input) throws PsyduckException {
-        if (input.length() <= 5 || input.substring(5).trim().isEmpty()) {
+        // Input format: "finddate 2024-12-15"
+        // "finddate" = 8 characters
+        if (input.length() <= 9 || input.substring(9).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! Please specify a date to search for.\n" +
-                    "Usage: find <date in yyyy-MM-dd format>");
+                    "Usage: finddate <date in yyyy-MM-dd format>");
         }
 
-        String dateStr = input.substring(5).trim();
+        String dateStr = input.substring(9).trim();
         this.searchDate = DateParser.parseDate(dateStr);
 
         if (searchDate == null) {
             throw new PsyduckException("OOPS!!! Invalid date format.\n" +
                     "Supported formats: yyyy-MM-dd, dd/MM/yyyy, MM/dd/yyyy, MMM dd yyyy\n" +
-                    "Example: find 2024-12-25");
+                    "Example: finddate 2024-12-25");
         }
     }
 
     /**
      * Executes the command by finding and displaying matching tasks.
      *
-     * @param taskList The psyduck.task list to search.
+     * @param taskList The task list to search.
      * @param ui The Ui instance for displaying results.
      * @param storage The Storage instance (not used).
      */
