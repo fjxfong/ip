@@ -1,16 +1,16 @@
 package psyduck;
 
 import psyduck.command.Command;
-import psyduck.command.FindCommand;
-import psyduck.command.ToDoCommand;
 import psyduck.command.DeadlineCommand;
-import psyduck.command.EventCommand;
 import psyduck.command.DeleteCommand;
+import psyduck.command.EventCommand;
 import psyduck.command.ExitCommand;
+import psyduck.command.FindCommand;
 import psyduck.command.ListCommand;
 import psyduck.command.MarkCommand;
-import psyduck.command.UnmarkCommand;
 import psyduck.command.SearchCommand;
+import psyduck.command.ToDoCommand;
+import psyduck.command.UnmarkCommand;
 
 /**
  * Handles parsing of user input commands and creates the appropriate Command Object.
@@ -32,17 +32,17 @@ public class Parser {
         String commandWord = input.split(" ")[0].toLowerCase();
 
         return switch (commandWord) {
-            case "bye" -> new ExitCommand();
-            case "list" -> new ListCommand();
-            case "mark" -> new MarkCommand(input);
-            case "unmark" -> new UnmarkCommand(input);
-            case "delete" -> new DeleteCommand(input);
-            case "todo" -> new ToDoCommand(input);
-            case "deadline" -> new DeadlineCommand(input);
-            case "event" -> new EventCommand(input);
-            case "find" -> new SearchCommand(input);
-            case "finddate" -> new FindCommand(input);
-            default -> throw new PsyduckException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+        case "bye" -> new ExitCommand();
+        case "list" -> new ListCommand();
+        case "mark" -> new MarkCommand(input);
+        case "unmark" -> new UnmarkCommand(input);
+        case "delete" -> new DeleteCommand(input);
+        case "todo" -> new ToDoCommand(input);
+        case "deadline" -> new DeadlineCommand(input);
+        case "event" -> new EventCommand(input);
+        case "find" -> new SearchCommand(input);
+        case "finddate" -> new FindCommand(input);
+        default -> throw new PsyduckException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         };
     }
 }

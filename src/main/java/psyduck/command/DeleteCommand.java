@@ -1,7 +1,7 @@
 package psyduck.command;
 
-import psyduck.Ui;
 import psyduck.PsyduckException;
+import psyduck.Ui;
 import psyduck.storage.Storage;
 import psyduck.task.Task;
 import psyduck.tasklist.TaskList;
@@ -20,8 +20,8 @@ public class DeleteCommand extends Command {
      */
     public DeleteCommand(String input) throws PsyduckException {
         if (input.length() <= 7 || input.substring(7).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! Please specify which psyduck.task to delete!\n" +
-                    "Usage: delete <psyduck.task number>");
+            throw new PsyduckException("OOPS!!! Please specify which psyduck.task to delete!\n"
+                    + "Usage: delete <psyduck.task number>");
         }
         this.taskIndex = Integer.parseInt(input.substring(7).trim()) - 1;
     }
@@ -37,8 +37,8 @@ public class DeleteCommand extends Command {
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws PsyduckException {
         if (taskIndex < 0 || taskIndex >= taskList.size()) {
-            throw new PsyduckException("OOPS!!! Task number " + (taskIndex + 1) +
-                    " doesn't exist! You have " + taskList.size() + " psyduck.task(s).");
+            throw new PsyduckException("OOPS!!! Task number " + (taskIndex + 1)
+                    + " doesn't exist! You have " + taskList.size() + " psyduck.task(s).");
         }
         Task deletedTask = taskList.delete(taskIndex);
         storage.save(taskList.getTasks());
@@ -61,7 +61,8 @@ public class DeleteCommand extends Command {
         }
         Task deletedTask = taskList.delete(taskIndex);
         storage.save(taskList.getTasks());
-        return "Noted. I've removed this task:\n  " + deletedTask.toString()
+        return "Noted. I've removed this task:\n  "
+                + deletedTask.toString()
                 + "\nNow you have " + taskList.size() + " task(s) in the list.";
     }
 }

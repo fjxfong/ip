@@ -7,7 +7,8 @@ import psyduck.Ui;
 import psyduck.storage.Storage;
 import psyduck.tasklist.TaskList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for the FindCommand class.

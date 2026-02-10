@@ -1,7 +1,7 @@
 package psyduck.command;
 
-import psyduck.Ui;
 import psyduck.PsyduckException;
+import psyduck.Ui;
 import psyduck.storage.Storage;
 import psyduck.tasklist.TaskList;
 
@@ -20,33 +20,33 @@ public class DeadlineCommand extends Command {
      */
     public DeadlineCommand(String input) throws PsyduckException {
         if (input.length() <= 8 || input.substring(8).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
+            throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n"
+                    + "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         String details = input.substring(9).trim();
         int byIndex = details.indexOf("/by");
 
         if (byIndex == -1) {
-            throw new PsyduckException("OOPS!!! Please specify the deadline with /by.\n" +
-                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
+            throw new PsyduckException("OOPS!!! Please specify the deadline with /by.\n"
+                    + "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         this.description = details.substring(0, byIndex).trim();
         if (description.isEmpty()) {
-            throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n" +
-                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
+            throw new PsyduckException("OOPS!!! The description of a deadline cannot be empty.\n"
+                    + "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         if (byIndex + 3 >= details.length()) {
-            throw new PsyduckException("OOPS!!! The deadline date cannot be empty.\n" +
-                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
+            throw new PsyduckException("OOPS!!! The deadline date cannot be empty.\n"
+                    + "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
 
         this.by = details.substring(byIndex + 3).trim();
         if (by.isEmpty()) {
-            throw new PsyduckException("OOPS!!! The deadline date cannot be empty.\n" +
-                    "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
+            throw new PsyduckException("OOPS!!! The deadline date cannot be empty.\n"
+                    + "Usage: deadline <description> /by <date in yyyy-MM-dd format>");
         }
     }
 

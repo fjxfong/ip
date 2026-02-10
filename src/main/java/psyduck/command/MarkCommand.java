@@ -1,7 +1,7 @@
 package psyduck.command;
 
-import psyduck.Ui;
 import psyduck.PsyduckException;
+import psyduck.Ui;
 import psyduck.storage.Storage;
 import psyduck.tasklist.TaskList;
 
@@ -19,8 +19,8 @@ public class MarkCommand extends Command {
      */
     public MarkCommand(String input) throws PsyduckException {
         if (input.length() <= 5 || input.substring(5).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! Please specify which psyduck.task to mark!\n" +
-                    "Usage: mark <psyduck.task number>");
+            throw new PsyduckException("OOPS!!! Please specify which psyduck.task to mark!\n"
+                    + "Usage: mark <psyduck.task number>");
         }
         this.taskIndex = Integer.parseInt(input.substring(5).trim()) - 1;
     }
@@ -36,8 +36,8 @@ public class MarkCommand extends Command {
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws PsyduckException {
         if (taskIndex < 0 || taskIndex >= taskList.size()) {
-            throw new PsyduckException("OOPS!!! Task number " + (taskIndex + 1) +
-                    " doesn't exist! You have " + taskList.size() + " psyduck.task(s).");
+            throw new PsyduckException("OOPS!!! Task number " + (taskIndex + 1)
+                    + " doesn't exist! You have " + taskList.size() + " psyduck.task(s).");
         }
         taskList.markTask(taskIndex);
         storage.save(taskList.getTasks());

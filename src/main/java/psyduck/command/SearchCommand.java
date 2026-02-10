@@ -1,7 +1,7 @@
 package psyduck.command;
 
-import psyduck.Ui;
 import psyduck.PsyduckException;
+import psyduck.Ui;
 import psyduck.storage.Storage;
 import psyduck.task.Task;
 import psyduck.tasklist.TaskList;
@@ -25,8 +25,8 @@ public class SearchCommand extends Command {
         int prefixLength = commandWord.length();
 
         if (input.length() <= prefixLength || input.substring(prefixLength).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! Please specify a keyword to search for.\n" +
-                    "Usage: find <keyword>");
+            throw new PsyduckException("OOPS!!! Please specify a keyword to search for.\n"
+                    + "Usage: find <keyword>");
         }
         this.keyword = input.substring(prefixLength + 1).trim().toLowerCase();
     }

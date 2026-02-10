@@ -1,9 +1,23 @@
 package psyduck;
 
 import org.junit.jupiter.api.Test;
-import psyduck.command.*;
+import psyduck.command.Command;
+import psyduck.command.DeadlineCommand;
+import psyduck.command.DeleteCommand;
+import psyduck.command.EventCommand;
+import psyduck.command.ExitCommand;
+import psyduck.command.FindCommand;
+import psyduck.command.ListCommand;
+import psyduck.command.MarkCommand;
+import psyduck.command.SearchCommand;
+import psyduck.command.ToDoCommand;
+import psyduck.command.UnmarkCommand;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 /**
  * Tests for the Parser class.

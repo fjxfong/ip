@@ -1,7 +1,7 @@
 package psyduck.command;
 
-import psyduck.Ui;
 import psyduck.PsyduckException;
+import psyduck.Ui;
 import psyduck.storage.Storage;
 import psyduck.task.DateParser;
 import psyduck.task.Deadline;
@@ -27,17 +27,17 @@ public class FindCommand extends Command {
         // Input format: "finddate 2024-12-15"
         // "finddate" = 8 characters
         if (input.length() <= 9 || input.substring(9).trim().isEmpty()) {
-            throw new PsyduckException("OOPS!!! Please specify a date to search for.\n" +
-                    "Usage: finddate <date in yyyy-MM-dd format>");
+            throw new PsyduckException("OOPS!!! Please specify a date to search for.\n"
+                    + "Usage: finddate <date in yyyy-MM-dd format>");
         }
 
         String dateStr = input.substring(9).trim();
         this.searchDate = DateParser.parseDate(dateStr);
 
         if (searchDate == null) {
-            throw new PsyduckException("OOPS!!! Invalid date format.\n" +
-                    "Supported formats: yyyy-MM-dd, dd/MM/yyyy, MM/dd/yyyy, MMM dd yyyy\n" +
-                    "Example: finddate 2024-12-25");
+            throw new PsyduckException("OOPS!!! Invalid date format.\n"
+                    + "Supported formats: yyyy-MM-dd, dd/MM/yyyy, MM/dd/yyyy, MMM dd yyyy\n"
+                    + "Example: finddate 2024-12-25");
         }
     }
 

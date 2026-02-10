@@ -1,10 +1,11 @@
 package psyduck.tasklist;
 
-import java.util.ArrayList;
-import psyduck.task.Task;
-import psyduck.task.Event;
-import psyduck.task.ToDo;
 import psyduck.task.Deadline;
+import psyduck.task.Event;
+import psyduck.task.Task;
+import psyduck.task.ToDo;
+
+import java.util.ArrayList;
 
 /**
  * Manages a collection of tasks and provides operations to modify them

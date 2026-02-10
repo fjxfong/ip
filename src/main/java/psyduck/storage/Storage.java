@@ -1,10 +1,11 @@
 package psyduck.storage;
 
 import psyduck.PsyduckException;
-import psyduck.task.Task;
-import psyduck.task.ToDo;
 import psyduck.task.Deadline;
 import psyduck.task.Event;
+import psyduck.task.Task;
+import psyduck.task.ToDo;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -85,16 +86,20 @@ public class Storage {
             String description = parts[2];
 
             Task task = switch (type) {
-                case "T" -> new ToDo(description);
-                case "D" -> {
-                    if (parts.length < 4) yield null;
-                    yield new Deadline(description, parts[3]);
+            case "T" -> new ToDo(description);
+            case "D" -> {
+                if (parts.length < 4) {
+                    yield null;
+                    }
+                yield new Deadline(description, parts[3]);
                 }
-                case "E" -> {
-                    if (parts.length < 5) yield null;
-                    yield new Event(description, parts[3], parts[4]);
+            case "E" -> {
+                if (parts.length < 5) {
+                    yield null;
+                    }
+                yield new Event(description, parts[3], parts[4]);
                 }
-                default -> null;
+            default -> null;
             };
 
             if (task != null && isDone) {
