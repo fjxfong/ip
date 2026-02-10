@@ -22,6 +22,16 @@ public abstract class Command {
     }
 
     /**
+     * Executes the command and returns a response string for GUI.
+     *
+     * @param taskList The task list to operate on.
+     * @param storage The Storage instance for data persistence.
+     * @return The response message.
+     * @throws PsyduckException If the command encounters an error.
+     */
+    public abstract String executeForGui(TaskList taskList, Storage storage) throws PsyduckException;
+
+    /**
      * Executes the command.
      *
      * @param taskList The psyduck.task list to operate on.

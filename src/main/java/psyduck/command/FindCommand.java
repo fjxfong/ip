@@ -73,4 +73,41 @@ public class FindCommand extends Command {
 
         ui.showFindResults(result.toString(), DateParser.formatForDisplay(searchDate));
     }
+
+    /**
+     * Executes the command for GUI by finding and displaying matching task with dates
+     *
+     * @param taskList The task list to operate on.
+     * @param storage The Storage instance for data persistence.
+     * @return String for successful execution.
+     */
+    @Override
+    public String executeForGui(TaskList taskList, Storage storage) {
+        StringBuilder result = new StringBuilder();
+        int count = 1;
+
+        for (int i = 0; i < taskList.size(); i++) {
+            Task task = taskList.get(i);
+
+            if (task instanceof Deadline) {
+                Deadline deadline = (Deadline) task;
+                if (deadline.getByDate() != null && deadline.getByDate().equals(searchDate)) {
+                    result.append(count++).append(".").append(task).append("\n");
+                }
+            } else if (task instanceof Event) {
+                Event event = (Event) task;
+                if (event.getFromDate() != null && event.getToDate() != null
+                        && !event.getFromDate().isAfter(searchDate)
+                        && !event.getToDate().isBefore(searchDate)) {
+                    result.append(count++).append(".").append(task).append("\n");
+                }
+            }
+        }
+
+        if (result.length() == 0) {
+            return "No tasks found on " + DateParser.formatForDisplay(searchDate);
+        } else {
+            return "Tasks on " + DateParser.formatForDisplay(searchDate) + ":\n" + result.toString();
+        }
+    }
 }
