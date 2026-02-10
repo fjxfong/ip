@@ -1,5 +1,6 @@
 package psyduck.command;
 
+import javafx.application.Platform;
 import psyduck.Ui;
 import psyduck.storage.Storage;
 import psyduck.tasklist.TaskList;
@@ -29,14 +30,25 @@ public class ExitCommand extends Command {
     }
 
     /**
-     * Execute exit command for GUI by displaying the goodbye message.
+     * Execute exit command for GUI by closing the application.
      *
-     * @param taskList The task list to operate on.
-     * @param storage The Storage instance for data persistence.
+     * @param taskList The task list to operate on (not used).
+     * @param storage The Storage instance (not used).
      * @return String message for successful exit.
      */
     @Override
     public String executeForGui(TaskList taskList, Storage storage) {
+        // Close the JavaFX application after a short delay
+        // so the goodbye message can be displayed first
+        new Thread(() -> {
+            try {
+                Thread.sleep(1500); // Wait 1.5 seconds
+                Platform.exit(); // Close the JavaFX application
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
         return "Bye. Hope to see you again soon!";
     }
 }
