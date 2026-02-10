@@ -5,7 +5,7 @@ import psyduck.storage.Storage;
 import psyduck.tasklist.TaskList;
 
 /**
- * Runs the Psyduck psyduck.task management chatbot application.
+ * Runs the Psyduck task management chatbot application.
  * Main entry point of the application.
  */
 public class Psyduck {
@@ -31,8 +31,27 @@ public class Psyduck {
     }
 
     /**
-     * Runs the main application loop.
-     * Reads user input, parses it into commands, and executes them.
+     * Generates a response for the user's chat message.
+     *
+     * @param input The user's input.
+     * @return Psyduck's response.
+     */
+    public String getResponse(String input) {
+        try {
+            Command c = Parser.parse(input);
+            return c.executeForGui(taskList, storage);
+        } catch (PsyduckException e) {
+            return e.getMessage();
+        } catch (NumberFormatException e) {
+            return "OOPS!!! Please provide a valid task number!";
+        } catch (Exception e) {
+            return "OOPS!!! Something went wrong: " + e.getMessage();
+        }
+    }
+
+
+    /**
+     * Runs the main application loop (for CLI mode).
      */
     public void run() {
         ui.showWelcome();
@@ -48,7 +67,7 @@ public class Psyduck {
             } catch (PsyduckException e) {
                 ui.showError(e.getMessage());
             } catch (NumberFormatException e) {
-                ui.showError("OOPS!!! Please provide a valid psyduck.task number!");
+                ui.showError("OOPS!!! Please provide a valid task number!");
             } catch (Exception e) {
                 ui.showError("OOPS!!! Something went wrong: " + e.getMessage());
             } finally {
