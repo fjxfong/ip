@@ -44,4 +44,24 @@ public class DeleteCommand extends Command {
         storage.save(taskList.getTasks());
         ui.showDeletedTask(deletedTask.toString(), taskList.size());
     }
+
+    /**
+     * Executes the command for GUI by deleting the task and saving.
+     *
+     * @param taskList The task list to operate on.
+     * @param storage The Storage instance for data persistence.
+     * @return String message for successful execution.
+     * @throws PsyduckException If the task index is invalid or saving fails.
+     */
+    @Override
+    public String executeForGui(TaskList taskList, Storage storage) throws PsyduckException {
+        if (taskIndex < 0 || taskIndex >= taskList.size()) {
+            throw new PsyduckException("OOPS!!! Task number " + (taskIndex + 1)
+                    + " doesn't exist! You have " + taskList.size() + " task(s).");
+        }
+        Task deletedTask = taskList.delete(taskIndex);
+        storage.save(taskList.getTasks());
+        return "Noted. I've removed this task:\n  " + deletedTask.toString()
+                + "\nNow you have " + taskList.size() + " task(s) in the list.";
+    }
 }

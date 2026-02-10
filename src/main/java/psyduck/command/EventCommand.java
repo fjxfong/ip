@@ -72,4 +72,21 @@ public class EventCommand extends Command {
         storage.save(taskList.getTasks());
         ui.showAddedTask(taskList.get(taskList.size() - 1).toString(), taskList.size());
     }
+
+    /**
+     * Executes the command for GUI by adding an Event and saving.
+     *
+     * @param taskList The task list to operate on.
+     * @param storage The Storage instance for data persistence.
+     * @return String message for successful execution.
+     * @throws PsyduckException If saving fails.
+     */
+    @Override
+    public String executeForGui(TaskList taskList, Storage storage) throws PsyduckException {
+        taskList.addEvent(description, from, to);
+        storage.save(taskList.getTasks());
+        return "Got it. I've added this task:\n  "
+                + taskList.get(taskList.size() - 1).toString()
+                + "\nNow you have " + taskList.size() + " task(s) in the list.";
+    }
 }

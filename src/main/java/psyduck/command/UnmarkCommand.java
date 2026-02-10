@@ -43,4 +43,23 @@ public class UnmarkCommand extends Command {
         storage.save(taskList.getTasks());
         ui.showUnmarkedTask(taskList.get(taskIndex).toString());
     }
+
+    /**
+     * Executes the command for GUI by marking the task and saving
+     *
+     * @param taskList The task list to operate on.
+     * @param storage The Storage instance for data persistence.
+     * @return String message for successful execution.
+     * @throws PsyduckException If the task index is invalid or saving fails.
+     */
+    @Override
+    public String executeForGui(TaskList taskList, Storage storage) throws PsyduckException {
+        if (taskIndex < 0 || taskIndex >= taskList.size()) {
+            throw new PsyduckException("OOPS!!! Task number " + (taskIndex + 1)
+                    + " doesn't exist! You have " + taskList.size() + " task(s).");
+        }
+        taskList.unmarkTask(taskIndex);
+        storage.save(taskList.getTasks());
+        return "OK! I've marked this task as not done yet:\n  " + taskList.get(taskIndex).toString();
+    }
 }

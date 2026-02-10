@@ -52,4 +52,30 @@ public class SearchCommand extends Command {
 
         ui.showSearchResults(result.toString(), keyword);
     }
+
+    /**
+     * Executes the command for GUI by searching for tasks containing the keyword.
+     *
+     * @param taskList The task list to operate on.
+     * @param storage The Storage instance for data persistence.
+     * @return String for successful execution.
+     */
+    @Override
+    public String executeForGui(TaskList taskList, Storage storage) {
+        StringBuilder result = new StringBuilder();
+        int count = 1;
+
+        for (int i = 0; i < taskList.size(); i++) {
+            Task task = taskList.get(i);
+            if (task.getDescription().toLowerCase().contains(keyword)) {
+                result.append(count++).append(".").append(task).append("\n");
+            }
+        }
+
+        if (result.length() == 0) {
+            return "No tasks found containing: " + keyword;
+        } else {
+            return "Here are the matching tasks in your list:\n" + result.toString();
+        }
+    }
 }

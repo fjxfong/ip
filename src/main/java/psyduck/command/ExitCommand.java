@@ -27,4 +27,16 @@ public class ExitCommand extends Command {
     public void execute(TaskList taskList, Ui ui, Storage storage) {
         ui.showExit();
     }
+
+    /**
+     * Execute exit command for GUI by displaying the goodbye message.
+     *
+     * @param taskList The task list to operate on.
+     * @param storage The Storage instance for data persistence.
+     * @return String message for successful exit.
+     */
+    @Override
+    public String executeForGui(TaskList taskList, Storage storage) {
+        return "Bye. Hope to see you again soon!";
+    }
 }
