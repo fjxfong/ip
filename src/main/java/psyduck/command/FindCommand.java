@@ -16,7 +16,7 @@ import java.time.LocalDate;
  */
 public class FindCommand extends Command {
     private final LocalDate searchDate;
-
+    private static final int COMMAND_PREFIX_LENGTH = 9;
     /**
      * Creates a new FindCommand by parsing the date.
      *
@@ -26,12 +26,13 @@ public class FindCommand extends Command {
     public FindCommand(String input) throws PsyduckException {
         // Input format: "finddate 2024-12-15"
         // "finddate" = 8 characters
-        if (input.length() <= 9 || input.substring(9).trim().isEmpty()) {
+        if (input.length() <= COMMAND_PREFIX_LENGTH
+                || input.substring(COMMAND_PREFIX_LENGTH).trim().isEmpty()) {
             throw new PsyduckException("OOPS!!! Please specify a date to search for.\n"
                     + "Usage: finddate <date in yyyy-MM-dd format>");
         }
 
-        String dateStr = input.substring(9).trim();
+        String dateStr = input.substring(COMMAND_PREFIX_LENGTH).trim();
         this.searchDate = DateParser.parseDate(dateStr);
 
         if (searchDate == null) {
