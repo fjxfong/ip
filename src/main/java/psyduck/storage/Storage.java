@@ -26,6 +26,8 @@ public class Storage {
      * @param filePath Path to the data file.
      */
     public Storage(String filePath) {
+        assert filePath != null : "File path should not be null";
+        assert !filePath.trim().isEmpty() : "File path should not be empty";
         this.filePath = filePath;
     }
 
@@ -120,6 +122,8 @@ public class Storage {
      * @throws PsyduckException If there is an error writing to the file.
      */
     public void save(ArrayList<Task> tasks) throws PsyduckException {
+        assert tasks != null : "Task list should not be null";
+
         try {
             File file = new File(filePath);
             File directory = file.getParentFile();

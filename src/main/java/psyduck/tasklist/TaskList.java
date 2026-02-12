@@ -83,6 +83,8 @@ public class TaskList {
      * @param index Zero-based index of the psyduck.task.
      */
     public void markTask(int index) {
+        assert index >= 0 : "Task index should be non-negative";
+        assert index < tasks.size() : "Task index should be within list bounds";
         tasks.get(index).mark();
     }
 
@@ -92,6 +94,8 @@ public class TaskList {
      * @param index Zero-based index of the psyduck.task.
      */
     public void unmarkTask(int index) {
+        assert index >= 0 : "Task index should be non-negative";
+        assert index < tasks.size() : "Task index should be within list bounds";
         tasks.get(index).unmark();
     }
 
@@ -102,6 +106,8 @@ public class TaskList {
      * @return The deleted psyduck.task.
      */
     public Task delete(int index) {
+        assert index >= 0 : "Task index should be non-negative";
+        assert index < tasks.size() : "Task index should be within list bounds";
         return tasks.remove(index);
     }
 
@@ -136,6 +142,8 @@ public class TaskList {
      * @return Task at the given index
      */
     public Task get(int index) {
+        assert index >= 0 : "Task index should be non-negative";
+        assert index < tasks.size() : "Task index should be within list bounds";
         return tasks.get(index);
     }
 }

@@ -37,6 +37,8 @@ public class DateParser {
      * @return Parsed LocalDate, or null if no format matches.
      */
     public static LocalDate parseDate(String dateStr) {
+        assert dateStr != null : "Date string should not be null";
+
         if (dateStr == null || dateStr.trim().isEmpty()) {
             return null;
         }
@@ -61,6 +63,7 @@ public class DateParser {
      * @return Formatted date string, or "Invalid date" if null.
      */
     public static String formatForDisplay(LocalDate date) {
+        assert date != null : "Date should not be null when formatting for display";
         return date != null ? date.format(OUTPUT_FORMATTER) : "Invalid date";
     }
 
