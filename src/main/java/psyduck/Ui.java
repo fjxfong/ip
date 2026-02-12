@@ -69,6 +69,32 @@ public class Ui {
     }
 
     /**
+     * Displays multiple lines of text.
+     * Uses varargs to accept variable number of string arguments.
+     *
+     * @param lines Variable number of strings to display.
+     */
+    public void showLines(String... lines) {
+        for (String line : lines) {
+            System.out.println(line);
+        }
+    }
+
+    /**
+     * Displays a message with a divider before and after.
+     * Uses varargs to accept variable number of message lines.
+     *
+     * @param messages Variable number of message lines.
+     */
+    public void showMessage(String... messages) {
+        showLine();
+        for (String message : messages) {
+            System.out.println(message);
+        }
+        showLine();
+    }
+
+    /**
      * Displays a message after successfully adding a psyduck.task.
      *
      * @param task The psyduck.task that was added.

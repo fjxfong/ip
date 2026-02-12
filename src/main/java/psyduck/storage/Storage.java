@@ -104,8 +104,15 @@ public class Storage {
             default -> null;
             };
 
-            if (task != null && isDone) {
-                task.mark();
+            if (task != null) {
+                if (isDone) {
+                    task.mark();
+                }
+
+                if (parts.length > getExpectedPartCount(type)) {
+                    String tagsStr = parts[parts.length - 1];
+                    task.setTagsFromStorage(tagsStr);
+                }
             }
 
             return task;
@@ -113,6 +120,18 @@ public class Storage {
             // Corrupted data, skip this line
             return null;
         }
+    }
+
+    /**
+     * Returns the expected number of parts for each task type (without tags).
+     */
+    private int getExpectedPartCount(String type) {
+        return switch (type) {
+            case "T" -> 3;  // Type | isDone | description
+            case "D" -> 4;  // Type | isDone | description | by
+            case "E" -> 5;  // Type | isDone | description | from | to
+            default -> 3;
+        };
     }
 
     /**
@@ -168,6 +187,14 @@ public class Storage {
         }
 
         int isDone = task.isDone() ? 1 : 0;
-        return type + " | " + isDone + " | " + task.getDescription() + additionalInfo;
+        String baseFormat = type + " | " + isDone + " | " + task.getDescription() + additionalInfo;
+
+        // Append tags if present
+        String tagsStr = task.getTagsForStorage();
+        if (!tagsStr.isEmpty()) {
+            baseFormat += " | " + tagsStr;
+        }
+
+        return baseFormat;
     }
 }
