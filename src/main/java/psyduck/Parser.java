@@ -11,6 +11,8 @@ import psyduck.command.MarkCommand;
 import psyduck.command.SearchCommand;
 import psyduck.command.ToDoCommand;
 import psyduck.command.UnmarkCommand;
+import psyduck.command.TagCommand;
+import psyduck.command.FindTagCommand;
 
 /**
  * Handles parsing of user input commands and creates the appropriate Command Object.
@@ -42,6 +44,8 @@ public class Parser {
         case "event" -> new EventCommand(input);
         case "find" -> new SearchCommand(input);
         case "finddate" -> new FindCommand(input);
+        case "tag", "untag" -> new TagCommand(input);
+        case "findtag" -> new FindTagCommand(input);
         default -> throw new PsyduckException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         };
     }
