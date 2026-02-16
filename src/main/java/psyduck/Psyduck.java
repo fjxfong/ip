@@ -44,6 +44,8 @@ public class Psyduck {
             return e.getMessage();
         } catch (NumberFormatException e) {
             return "OOPS!!! Please provide a valid task number!";
+        } catch (IndexOutOfBoundsException e) {
+            return "OOPS!! That task number does not exist!";
         } catch (Exception e) {
             return "OOPS!!! Something went wrong: " + e.getMessage();
         }
