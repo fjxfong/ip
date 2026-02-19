@@ -1,6 +1,6 @@
 # Psyduck User Guide 🦆
 
-![img.png](img.png)
+![img.png](Ui.png)
 
 Psyduck is a **personal task manager** that helps you organize your tasks efficiently through a simple command-line interface with a beautiful GUI.
 
